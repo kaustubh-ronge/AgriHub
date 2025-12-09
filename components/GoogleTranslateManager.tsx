@@ -21,7 +21,7 @@ const GoogleTranslateManager = () => {
       // Set the cookie using multiple methods for reliability
       document.cookie = `googtrans=/en/${langCode};path=/;domain=${window.location.hostname};`;
       document.cookie = `googtrans=/en/${langCode};path=/;`;
-      
+
       // Reload the page to apply the translation
       window.location.reload();
     }, 100);
@@ -58,15 +58,17 @@ const GoogleTranslateManager = () => {
       try {
         const htmlEl = document.documentElement;
         if (htmlEl && (htmlEl.style.top && htmlEl.style.top !== '0px')) {
-            htmlEl.style.top = '0px';
+          htmlEl.style.top = '0px';
         }
-        
+
         const bannerFrames = document.querySelectorAll<HTMLIFrameElement>('iframe.goog-te-banner-frame');
         bannerFrames.forEach(frame => {
           frame.style.setProperty('display', 'none', 'important');
         });
       } catch (error) {
         // Silently catch errors if elements are not found
+        console.log(error)
+
       }
     };
 
@@ -78,12 +80,12 @@ const GoogleTranslateManager = () => {
 
     // Initialize the Google Translate script
     const googleTranslateElementInit = () => {
-        if (window.google && window.google.translate) {
-            new window.google.translate.TranslateElement(
-                { pageLanguage: 'en' },
-                'google_translate_element'
-            );
-        }
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement(
+          { pageLanguage: 'en' },
+          'google_translate_element'
+        );
+      }
     };
     window.googleTranslateElementInit = googleTranslateElementInit;
 
@@ -106,7 +108,8 @@ const GoogleTranslateManager = () => {
         clearTimeout(timeoutId);
         observer.disconnect();
       } catch (error) {
-        // Silently catch errors
+        // Silently catch errorsclg
+        console.log(error)
       }
     };
   }, []);

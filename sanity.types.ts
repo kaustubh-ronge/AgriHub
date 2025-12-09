@@ -229,6 +229,7 @@ export type Product = {
   _rev: string;
   name?: string;
   productVariant?: "seeds" | "fertilizer" | "pesticide" | "herbicide" | "fungicide" | "machinery" | "parts" | "tools" | "irrigation" | "feed" | "vet" | "media" | "gear";
+  status?: "sale" | "new" | "hot" | string;
   slug?: Slug;
   nursery?: {
     _ref: string;

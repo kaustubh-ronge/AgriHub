@@ -28,7 +28,7 @@ const NurseryPage = async () => {
             Trusted Partners
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
-            Explore India's Best <span className="text-green-600">Nurseries</span>
+            Explore India Best <span className="text-green-600">Nurseries</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Directly connect with certified nurseries to buy high-yield seeds, healthy saplings, and authentic fertilizers.

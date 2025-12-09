@@ -8,13 +8,13 @@ import {
 } from "./ui/accordion";
 import { PortableText } from "@portabletext/react";
 
-// A simple helper component to avoid repetition
-const SpecRow = ({ label, value }: { label: string; value: any }) => {
-  if (!value) return null; // Don't show if no data
+// ✅ TYPE FIX: Removed 'any', added specific types allowed for rendering
+const SpecRow = ({ label, value }: { label: string; value: string | number | boolean | null | undefined }) => {
+  if (!value) return null; 
   return (
     <p className="flex items-center justify-between py-1.5 border-b border-gray-100">
       <span className="text-gray-600">{label}:</span>
-      <span className="font-semibold tracking-wide text-right">{value}</span>
+      <span className="font-semibold tracking-wide text-right">{value.toString()}</span>
     </p>
   );
 };
@@ -113,10 +113,8 @@ const ProductCharacteristics = ({
 }: {
   product: Product | null | undefined;
 }) => {
-  // 1. Safe Guard: If product doesn't exist, return nothing
   if (!product) return null;
 
-  // 2. Decide WHICH specs to show based on variant
   const renderVariantSpecs = () => {
     switch (product.productVariant) {
       case "seeds":
@@ -140,9 +138,6 @@ const ProductCharacteristics = ({
     }
   };
 
-  // 3. ✅ FIXED: Safe Label Generation
-  // This replaces the code that was crashing (product.productVariant!.slice)
-  // If productVariant is missing, we fallback to "Product" instead of crashing.
   const variantLabel = product.productVariant 
     ? product.productVariant.charAt(0).toUpperCase() + product.productVariant.slice(1)
     : "Product";
@@ -153,7 +148,7 @@ const ProductCharacteristics = ({
         <AccordionTrigger>Product Characteristics</AccordionTrigger>
         <AccordionContent className="space-y-1">
           {/* General Specs (for all products) */}
-          {/* @ts-expect-error - nursery is expanded in GROQ query */}
+          {/* @ts-expect-error - nursery is expanded in GROQ query but typed as reference in schema */}
           <SpecRow label="Nursery" value={product.nursery?.title} />
           <SpecRow label="Unit" value={product.unit} />
           <SpecRow
@@ -163,12 +158,10 @@ const ProductCharacteristics = ({
           <SpecRow label="Product Type" value={variantLabel} />
           <SpecRow label="SKU" value={product.sku} />
 
-          {/* Divider */}
           <div className="pt-4 mt-4 border-t border-gray-200">
             <h4 className="text-sm font-bold text-black mb-2">
               {variantLabel} Specifications
             </h4>
-            {/* Dynamic Specs (based on variant) */}
             {renderVariantSpecs()}
           </div>
         </AccordionContent>

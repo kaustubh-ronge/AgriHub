@@ -4,11 +4,10 @@ import { Heart } from 'lucide-react';
 import React from 'react'
 
 const AddToWishlistButton = ({
-    product,
     className,
 }: {
     product: Product;
-    className?: String;
+    className?: string;
 }) => {
     return (
         <div className={cn("absolute top-2 right-2 z-10", className)}>

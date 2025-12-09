@@ -27,6 +27,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 // Types
 import { Product } from "@/sanity.types"; 
+import Link from "next/link";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,7 +48,7 @@ const SingleProductPage = async ({ params }: Props) => {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Product Not Found</h1>
         <p className="text-gray-500">The item you are looking for does not exist or has been moved.</p>
         <Button className="mt-6" asChild>
-            <a href="/">Back to Home</a>
+            <Link href="/">Back to Home</Link>
         </Button>
       </Container>
     );
