@@ -144,13 +144,13 @@ const CartPage = () => {
                                 <p className="text-sm capitalize">
                                   Variant:{" "}
                                   <span className="font-semibold">
-                                    {product?.variant}
+                                    {product?.productVariant}
                                   </span>
                                 </p>
                                 <p className="text-sm capitalize">
                                   Status:{" "}
                                   <span className="font-semibold">
-                                    {product?.status}
+                                    {product?.productVariant}
                                   </span>
                                 </p>
                               </div>

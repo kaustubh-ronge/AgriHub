@@ -45,9 +45,8 @@ export async function createCheckoutSession(
       invoice_creation: {
         enabled: true,
       },
-      success_url: `${
-        process.env.NEXT_PUBLIC_BASE_URL
-      }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL
+        }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       line_items: items?.map((item) => ({
         price_data: {
@@ -55,7 +54,8 @@ export async function createCheckoutSession(
           unit_amount: Math.round(item?.product?.price! * 100),
           product_data: {
             name: item?.product?.name || "Unknown Product",
-            description: item?.product?.description,
+            // ✅ FIX: Use 'shortDescription' instead of 'description'
+            description: item?.product?.shortDescription || "No description available",
             metadata: { id: item?.product?._id },
             images:
               item?.product?.images && item?.product?.images?.length > 0
