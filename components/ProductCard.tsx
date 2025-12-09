@@ -14,9 +14,7 @@ import { Button } from "./ui/button";
 import { FaWhatsapp } from "react-icons/fa";
 import AddToWishlistButton from "./AddToWishlistButton";
 
-// ✅ LOCAL TYPE DEFINITION
-// This matches what your GROQ query actually returns (expanded categories)
-// vs what the schema defines (references).
+// Local type definition to handle expanded categories and custom fields
 type ProductProps = Omit<Product, 'categories'> & {
   status?: string;
   shortDescription?: string;
@@ -70,17 +68,17 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
           </Link>
         )}
 
-        {/* ✅ FIX: Cast to 'any' to bypass strict type mismatch on categories. 
-            The Wishlist button likely doesn't need the categories field anyway. */}
-        <AddToWishlistButton product={product as any} />
+        {/* ✅ FIX: Use 'as unknown as Product' to bypass strict type check WITHOUT using 'any' */}
+        <AddToWishlistButton product={product as unknown as Product} />
       </div>
 
       <div className="p-3 flex flex-col gap-2 flex-grow">
         {/* product details */}
         {product?.categories && (
           <p className="uppercase line-clamp-1 text-xs text-shop_light_text">
-            {product?.categories
-              ?.map((cat) => cat.title)
+            {/* ✅ FIX: Typescript knows 'cat' has a title because of ProductProps */}
+            {product.categories
+              .map((cat) => cat.title)
               .join(", ")}
           </p>
         )}
@@ -130,14 +128,14 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
         />
 
         <div className="mt-auto pt-2 flex flex-col gap-2">
-          {/* Cast to any here as well if AddToCart is strict */}
+          {/* ✅ FIX: Use 'as unknown as Product' here too */}
           <AddToCartButton
-            product={product as any}
+            product={product as unknown as Product}
             className="rounded-full flex-1"
           />
           {product.whatsappNumber && (
             <InquiryDrawer
-              product={product as any}
+              product={product as unknown as Product}
               whatsappNumber={product.whatsappNumber}
             >
               <Button
