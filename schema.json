@@ -1440,7 +1440,7 @@
         },
         "optional": true
       },
-      "brand": {
+      "nursery": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -1466,7 +1466,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "brand"
+          "dereferencesTo": "nursery"
         },
         "optional": true
       },
@@ -2449,7 +2449,7 @@
     }
   },
   {
-    "name": "brand",
+    "name": "nursery",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2462,7 +2462,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "brand"
+          "value": "nursery"
         }
       },
       "_createdAt": {

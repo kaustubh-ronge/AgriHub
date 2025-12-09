@@ -230,11 +230,11 @@ export type Product = {
   name?: string;
   productVariant?: "seeds" | "fertilizer" | "pesticide" | "herbicide" | "fungicide" | "machinery" | "parts" | "tools" | "irrigation" | "feed" | "vet" | "media" | "gear";
   slug?: Slug;
-  brand?: {
+  nursery?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "brand";
+    [internalGroqTypeReferenceTo]?: "nursery";
   };
   categories?: Array<{
     _ref: string;
@@ -357,9 +357,9 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type Brand = {
+export type Nursery = {
   _id: string;
-  _type: "brand";
+  _type: "nursery";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -466,14 +466,14 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | BlockContent | Address | Blogcategory | Blog | Author | Order | Product | SanityFileAsset | Brand | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | BlockContent | Address | Blogcategory | Blog | Author | Order | Product | SanityFileAsset | Nursery | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/queries/query.ts
-// Variable: BRANDS_QUERY
-// Query: *[_type=='brand'] | order(name asc)
-export type BRANDS_QUERYResult = Array<{
+// Variable: NURSERY_QUERY
+// Query: *[_type=='nursery'] | order(name asc)
+export type NURSERY_QUERYResult = Array<{
   _id: string;
-  _type: "brand";
+  _type: "nursery";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -530,7 +530,7 @@ export type LATEST_BLOG_QUERYResult = Array<{
 // Query: *[_type == 'product' && status == 'hot'] | order(name asc){    ...,"categories": categories[]->title  }
 export type DEAL_PRODUCTSResult = Array<never>;
 // Variable: PRODUCT_BY_SLUG_QUERY
-// Query: *[_type == "product" && slug.current == $slug][0]{    ..., // <-- This is the most important part! Fetches all new agri-fields    brand->, // <-- Gets all the brand information (title, logo, etc.)    categories[]->{title, "slug": slug.current}, // <-- Expands all categories    relatedProducts[]->{ // <-- Expands related products for "you may also like"      name,      "slug": slug.current,      images,      price,      discount,      shortDescription    }  }
+// Query: *[_type == "product" && slug.current == $slug][0]{    ..., // <-- This is the most important part! Fetches all new agri-fields    nursery->, // <-- Gets all the nursery information (title, logo, etc.)    categories[]->{title, "slug": slug.current}, // <-- Expands all categories    relatedProducts[]->{ // <-- Expands related products for "you may also like"      name,      "slug": slug.current,      images,      price,      discount,      shortDescription    }  }
 export type PRODUCT_BY_SLUG_QUERYResult = {
   _id: string;
   _type: "product";
@@ -540,9 +540,9 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   name?: string;
   productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet";
   slug?: Slug;
-  brand: {
+  nursery: {
     _id: string;
-    _type: "brand";
+    _type: "nursery";
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
@@ -668,10 +668,10 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   storageInstructions?: string;
   prescriptionRequired?: boolean;
 } | null;
-// Variable: BRAND_QUERY
-// Query: *[_type == "product" && slug.current == $slug]{  "brandName": brand->title  }
-export type BRAND_QUERYResult = Array<{
-  brandName: string | null;
+// Variable: NURSERY_QUERY_BY_PRODUCT
+// Query: *[_type == "product" && slug.current == $slug]{  "nurseryName": nursery->title }
+export type NURSERY_QUERY_BY_PRODUCTResult = Array<{
+  nurseryName: string | null;
 }>;
 // Variable: MY_ORDERS_QUERY
 // Query: *[_type == 'order' && clerkUserId == $userId] | order(orderData desc){...,products[]{  ...,product->}}
@@ -703,11 +703,11 @@ export type MY_ORDERS_QUERYResult = Array<{
       name?: string;
       productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet";
       slug?: Slug;
-      brand?: {
+      nursery?: {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "brand";
+        [internalGroqTypeReferenceTo]?: "nursery";
       };
       categories?: Array<{
         _ref: string;
@@ -951,11 +951,11 @@ export type OTHERS_BLOG_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type=='brand'] | order(name asc) ": BRANDS_QUERYResult;
+    "*[_type=='nursery'] | order(name asc) ": NURSERY_QUERYResult;
     " *[_type == 'blog' && isLatest == true]|order(name asc){\n\xA0 \xA0 \xA0 ...,\n\xA0 \xA0 \xA0 blogcategories[]->{\n\xA0 \xA0 \xA0 title\n\xA0 \xA0 }\n\xA0 \xA0 }": LATEST_BLOG_QUERYResult;
     "*[_type == 'product' && status == 'hot'] | order(name asc){\n\xA0 \xA0 ...,\"categories\": categories[]->title\n\xA0 }": DEAL_PRODUCTSResult;
-    "*[_type == \"product\" && slug.current == $slug][0]{\n    ..., // <-- This is the most important part! Fetches all new agri-fields\n    brand->, // <-- Gets all the brand information (title, logo, etc.)\n    categories[]->{title, \"slug\": slug.current}, // <-- Expands all categories\n    relatedProducts[]->{ // <-- Expands related products for \"you may also like\"\n      name,\n      \"slug\": slug.current,\n      images,\n      price,\n      discount,\n      shortDescription\n    }\n  }": PRODUCT_BY_SLUG_QUERYResult;
-    "*[_type == \"product\" && slug.current == $slug]{\n\xA0 \"brandName\": brand->title\n\xA0 }": BRAND_QUERYResult;
+    "*[_type == \"product\" && slug.current == $slug][0]{\n    ..., // <-- This is the most important part! Fetches all new agri-fields\n    nursery->, // <-- Gets all the nursery information (title, logo, etc.)\n    categories[]->{title, \"slug\": slug.current}, // <-- Expands all categories\n    relatedProducts[]->{ // <-- Expands related products for \"you may also like\"\n      name,\n      \"slug\": slug.current,\n      images,\n      price,\n      discount,\n      shortDescription\n    }\n  }": PRODUCT_BY_SLUG_QUERYResult;
+    "*[_type == \"product\" && slug.current == $slug]{\n  \"nurseryName\": nursery->title\n }": NURSERY_QUERY_BY_PRODUCTResult;
     "*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){\n...,products[]{\n\xA0 ...,product->\n}\n}": MY_ORDERS_QUERYResult;
     "*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{\n\xA0 ..., \xA0\n\xA0 \xA0 \xA0blogcategories[]->{\n\xA0 \xA0 title\n}\n\xA0 \xA0 }\n\xA0 ": GET_ALL_BLOGResult;
     "*[_type == \"blog\" && slug.current == $slug][0]{\n\xA0 ..., \n\xA0 \xA0 author->{\n\xA0 \xA0 name,\n\xA0 \xA0 image,\n\xA0 },\n\xA0 blogcategories[]->{\n\xA0 \xA0 title,\n\xA0 \xA0 \"slug\": slug.current,\n\xA0 },\n}": SINGLE_BLOG_QUERYResult;

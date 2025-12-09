@@ -12,7 +12,7 @@
 // );
 
 // const DEAL_PRODUCTS = defineQuery(
-//   `*[_type == 'product' && status == 'hot'] | order(name asc){
+//   `*[_type == 'product'fbr && status == 'hot'] | order(name asc){
 //     ...,"categories": categories[]->title
 //   }`
 // );
@@ -97,7 +97,7 @@
 
 import { defineQuery } from "next-sanity";
 
-const BRANDS_QUERY = defineQuery(`*[_type=='brand'] | order(name asc) `);
+const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
 
 const LATEST_BLOG_QUERY = defineQuery(
   ` *[_type == 'blog' && isLatest == true]|order(name asc){
@@ -119,7 +119,7 @@ const DEAL_PRODUCTS = defineQuery(
 const PRODUCT_BY_SLUG_QUERY = defineQuery(
   `*[_type == "product" && slug.current == $slug][0]{
     ..., // <-- This is the most important part! Fetches all new agri-fields
-    brand->, // <-- Gets all the brand information (title, logo, etc.)
+    nursery->, // <-- Gets all the nursery information (title, logo, etc.)
     categories[]->{title, "slug": slug.current}, // <-- Expands all categories
     relatedProducts[]->{ // <-- Expands related products for "you may also like"
       name,
@@ -133,9 +133,10 @@ const PRODUCT_BY_SLUG_QUERY = defineQuery(
 );
 
 // ❗️ --- THIS QUERY IS NO LONGER NEEDED FOR THE PRODUCT PAGE ---
-const BRAND_QUERY = defineQuery(`*[_type == "product" && slug.current == $slug]{
-  "brandName": brand->title
-  }`);
+// ❗️ --- This returns the nursery title for a product ---
+const NURSERY_QUERY_BY_PRODUCT = defineQuery(`*[_type == "product" && slug.current == $slug]{
+  "nurseryName": nursery->title
+ }`);
 
 const MY_ORDERS_QUERY =
   defineQuery(`*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){
@@ -194,11 +195,11 @@ const OTHERS_BLOG_QUERY = defineQuery(`*[
   }
 }`);
 export {
-  BRANDS_QUERY,
+  NURSERY_QUERY,
   LATEST_BLOG_QUERY,
   DEAL_PRODUCTS,
   PRODUCT_BY_SLUG_QUERY, // ✅ UPDATED
-  BRAND_QUERY,
+  NURSERY_QUERY_BY_PRODUCT,
   MY_ORDERS_QUERY,
   GET_ALL_BLOG,
   SINGLE_BLOG_QUERY,

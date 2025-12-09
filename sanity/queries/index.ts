@@ -169,7 +169,7 @@ import { sanityFetch } from "../lib/live";
 import {
   BLOG_CATEGORIES,
   // BRAND_QUERY, // ❗️ No longer needed for product page
-  BRANDS_QUERY,
+  NURSERY_QUERY,
   DEAL_PRODUCTS,
   GET_ALL_BLOG,
   LATEST_BLOG_QUERY,
@@ -201,12 +201,12 @@ const getCategories = async (quantity?: number) => {
   }
 };
 
-const getAllBrands = async () => {
+const getAllNurseries = async () => {
   try {
-    const { data } = await sanityFetch({ query: BRANDS_QUERY });
+    const { data } = await sanityFetch({ query: NURSERY_QUERY });
     return data ?? [];
   } catch (error) {
-    console.log("Error fetching all brands:", error);
+    console.log("Error fetching all Nursery:", error);
     return [];
   }
 };
@@ -329,7 +329,7 @@ const getOthersBlog = async (slug: string, quantity: number) => {
 };
 export {
   getCategories,
-  getAllBrands,
+  getAllNurseries,
   getLatestBlogs,
   getDealProducts,
   getProductBySlug, // ✅ UPDATED

@@ -1,11 +1,11 @@
 "use client";
-import { BRANDS_QUERYResult, Category, Product } from "@/sanity.types";
+import { NURSERY_QUERYResult, Category, Product } from "@/sanity.types";
 import React, { useEffect, useState } from "react";
 import Container from "./Container";
 import Title from "./Title";
 import CategoryList from "./shop/CategoryList";
 import { useSearchParams } from "next/navigation";
-import BrandList from "./shop/BrandList";
+import NurseryList from "./shop/NurseryList";
 import PriceList from "./shop/PriceList";
 import { client } from "@/sanity/lib/client";
 import { Loader2 } from "lucide-react";
@@ -14,19 +14,19 @@ import ProductCard from "./ProductCard";
 
 interface Props {
   categories: Category[];
-  brands: BRANDS_QUERYResult;
+  nurseries: NURSERY_QUERYResult;
 }
-const Shop = ({ categories, brands }: Props) => {
+const Shop = ({ categories, nurseries }: Props) => {
   const searchParams = useSearchParams();
-  const brandParams = searchParams?.get("brand");
+  const nurseryParams = searchParams?.get("nursery");
   const categoryParams = searchParams?.get("category");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     categoryParams || null
   );
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(
-    brandParams || null
+  const [selectedNursery, setSelectedNursery] = useState<string | null>(
+    nurseryParams || null
   );
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
   const fetchProducts = async () => {
@@ -42,16 +42,16 @@ const Shop = ({ categories, brands }: Props) => {
       const query = `
       *[_type == 'product' 
         && (!defined($selectedCategory) || references(*[_type == "category" && slug.current == $selectedCategory]._id))
-        && (!defined($selectedBrand) || references(*[_type == "brand" && slug.current == $selectedBrand]._id))
+        && (!defined($selectedNursery) || references(*[_type == "nursery" && slug.current == $selectedNursery]._id))
         && price >= $minPrice && price <= $maxPrice
       ] 
       | order(name asc) {
         ...,"categories": categories[]->title
       }
     `;
-      const data = await client.fetch(
+        const data = await client.fetch(
         query,
-        { selectedCategory, selectedBrand, minPrice, maxPrice },
+        { selectedCategory, selectedNursery, minPrice, maxPrice },
         { next: { revalidate: 0 } }
       );
       setProducts(data);
@@ -64,7 +64,7 @@ const Shop = ({ categories, brands }: Props) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [selectedCategory, selectedBrand, selectedPrice]);
+  }, [selectedCategory, selectedNursery, selectedPrice]);
   return (
     <div className="border-t">
       <Container className="mt-5">
@@ -74,12 +74,12 @@ const Shop = ({ categories, brands }: Props) => {
               Get the products as your needs
             </Title>
             {(selectedCategory !== null ||
-              selectedBrand !== null ||
+              selectedNursery !== null ||
               selectedPrice !== null) && (
               <button
                 onClick={() => {
                   setSelectedCategory(null);
-                  setSelectedBrand(null);
+                  setSelectedNursery(null);
                   setSelectedPrice(null);
                 }}
                 className="text-shop_dark_green underline text-sm mt-2 font-medium hover:text-darkRed hoverEffect"
@@ -96,10 +96,10 @@ const Shop = ({ categories, brands }: Props) => {
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
             />
-            <BrandList
-              brands={brands}
-              setSelectedBrand={setSelectedBrand}
-              selectedBrand={selectedBrand}
+            <NurseryList
+              nurseries={nurseries}
+              setSelectedNursery={setSelectedNursery}
+              selectedNursery={selectedNursery}
             />
             <PriceList
               setSelectedPrice={setSelectedPrice}

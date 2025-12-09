@@ -153,7 +153,8 @@ const ProductCharacteristics = ({
         <AccordionTrigger>Product Characteristics</AccordionTrigger>
         <AccordionContent className="space-y-1">
           {/* General Specs (for all products) */}
-          <SpecRow label="Brand" value={product.brand?.title} />
+          {/* @ts-expect-error - nursery is expanded in GROQ query */}
+          <SpecRow label="Nursery" value={product.nursery?.title} />
           <SpecRow label="Unit" value={product.unit} />
           <SpecRow
             label="Stock"

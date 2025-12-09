@@ -673,6 +673,7 @@
 
 import { TrolleyIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
+import { nursery } from "./nursery";
 
 // We'll group fields to keep the editor clean. This is now CRITICAL.
 const productGroups = [
@@ -734,11 +735,11 @@ export const productType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "brand",
-      title: "Brand",
+      name: "nursery",
+      title: "Nursery",
       type: "reference",
       group: "main",
-      to: { type: "brand" },
+      to: { type: "nursery" },
     }),
     defineField({
       name: "categories",
@@ -1307,14 +1308,14 @@ export const productType = defineType({
       title: "name",
       media: "images",
       variant: "productVariant",
-      brand: "brand.title",
+      nursery: "nursery.title",
     },
     prepare(selection) {
-      const { title, media, variant, brand } = selection;
+      const { title, media, variant, nursery } = selection;
       const image = media && media[0];
       return {
         title: title,
-        subtitle: `${brand || ""} - ${
+        subtitle: `${nursery || ""} - ${
           variant ? variant.charAt(0).toUpperCase() + variant.slice(1) : ""
         }`,
         media: image,

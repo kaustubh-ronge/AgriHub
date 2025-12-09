@@ -92,16 +92,16 @@ const SingleProductPage = async ({ params }: Props) => {
                 {product.categories && product.categories.length > 0 && (
                     <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded">
                         {/* TypeScript safe check for expanded category objects */}
-                        {/* @ts-ignore */}
+                        {/* @ts-expect-error - categories expanded in GROQ query */}
                         {product.categories[0]?.title || "Product"} 
                     </span>
                 )}
-                {product.brand && (
-                     <span className="text-xs font-bold uppercase tracking-wider text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        {/* @ts-ignore */}
-                        {product.brand?.title || "Brand"}
-                     </span>
-                )}
+                     {product.nursery && (
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                                {/* @ts-expect-error - nursery expanded in GROQ query */}
+                                {product.nursery?.title || "Nursery"}
+                            </span>
+                     )}
              </div>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
