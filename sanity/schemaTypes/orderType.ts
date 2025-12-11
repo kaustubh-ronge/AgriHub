@@ -13,26 +13,26 @@ export const orderType = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
-    {
-      name: "invoice",
-      type: "object",
-      fields: [
-        { name: "id", type: "string" },
-        { name: "number", type: "string" },
-        { name: "hosted_invoice_url", type: "url" },
-      ],
-    },
+    // -----------------------------------------------------------------
+    // 🔴 REPLACED STRIPE FIELDS WITH RAZORPAY FIELDS
+    // -----------------------------------------------------------------
     defineField({
-      name: "stripeCheckoutSessionId",
-      title: "Stripe Checkout Session ID",
+      name: "razorpayOrderId", // Was stripeCheckoutSessionId
+      title: "Razorpay Order ID",
       type: "string",
     }),
     defineField({
-      name: "stripeCustomerId",
-      title: "Stripe Customer ID",
+      name: "razorpayPaymentId", // Was stripePaymentIntentId
+      title: "Razorpay Payment ID",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "razorpaySignature", // NEW: Useful for security auditing
+      title: "Razorpay Signature",
+      type: "string",
+    }),
+    // -----------------------------------------------------------------
     defineField({
       name: "clerkUserId",
       title: "Store User ID",
@@ -50,12 +50,6 @@ export const orderType = defineType({
       title: "Customer Email",
       type: "string",
       validation: (Rule) => Rule.required().email(),
-    }),
-    defineField({
-      name: "stripePaymentIntentId",
-      title: "Stripe Payment Intent ID",
-      type: "string",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "products",
