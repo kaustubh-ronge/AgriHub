@@ -7,6 +7,7 @@ import useStore from "@/store";
 import toast from "react-hot-toast";
 import PriceFormatter from "./PriceFormatter";
 import QuantityButtons from "./QuantityButtons";
+import { useState } from "react";
 
 interface Props {
   product: Product;
@@ -18,9 +19,18 @@ const AddToCartButton = ({ product, className }: Props) => {
   const itemCount = getItemCount(product?._id);
   const isOutOfStock = product?.stock === 0;
 
+  const getStep = () => {
+    if (product?.allowFractional) return 0.1;
+    const su = (product?.sellingUnit || product?.unit || "").toString();
+    if (su === "kg" || su === "liter") return 0.1;
+    return 1;
+  };
+  const step = getStep();
+  const [quantityToAdd, setQuantityToAdd] = useState<number>(step);
+
   const handleAddToCart = () => {
-    if ((product?.stock as number) > itemCount) {
-      addItem(product);
+    if ((product?.stock as number) >= itemCount + quantityToAdd) {
+      addItem(product, quantityToAdd);
       toast.success(
         `${product?.name?.substring(0, 12)}... added successfully!`
       );
@@ -38,22 +48,27 @@ const AddToCartButton = ({ product, className }: Props) => {
           </div>
           <div className="flex items-center justify-between border-t pt-1">
             <span className="text-xs font-semibold">Subtotal</span>
-            <PriceFormatter
-              amount={product?.price ? product?.price * itemCount : 0}
-            />
+            <div className="flex items-baseline gap-2">
+              <PriceFormatter
+                amount={product?.price ? product?.price * itemCount : 0}
+              />
+              <span className="text-xs text-gray-500">/ {(product?.sellingUnit === "other" ? product?.otherSellingUnit : product?.sellingUnit) || product?.unit}</span>
+            </div>
           </div>
         </div>
       ) : (
-        <Button
-          onClick={handleAddToCart}
-          disabled={isOutOfStock}
-          className={cn(
-            "w-full bg-shop_dark_green/80 text-lightBg shadow-none border border-shop_dark_green/80 font-semibold tracking-wide text-white hover:bg-shop_dark_green hover:border-shop_dark_green hoverEffect",
-            className
-          )}
-        >
-          <ShoppingBag /> {isOutOfStock ? "Out of Stock" : "Add to Cart"}
-        </Button>
+        <div className="flex gap-2 w-full">
+            <Button
+              onClick={handleAddToCart}
+              disabled={isOutOfStock}
+              className={cn(
+                "flex-1 bg-shop_dark_green/80 text-lightBg shadow-none border border-shop_dark_green/80 font-semibold tracking-wide text-white hover:bg-shop_dark_green hover:border-shop_dark_green hoverEffect",
+                className
+              )}
+            >
+              <ShoppingBag /> {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+            </Button>
+          </div>
       )}
     </div>
   );

@@ -124,6 +124,9 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
         <PriceView
           price={product?.price}
           discount={product?.discount}
+          unitLabel={
+            (product?.sellingUnit === "other" ? product?.otherSellingUnit : product?.sellingUnit) || product?.unit
+          }
           className="text-sm"
         />
 

@@ -186,17 +186,12 @@ export type Order = {
   _updatedAt: string;
   _rev: string;
   orderNumber?: string;
-  invoice?: {
-    id?: string;
-    number?: string;
-    hosted_invoice_url?: string;
-  };
-  stripeCheckoutSessionId?: string;
-  stripeCustomerId?: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpaySignature?: string;
   clerkUserId?: string;
   customerName?: string;
   email?: string;
-  stripePaymentIntentId?: string;
   products?: Array<{
     product?: {
       _ref: string;
@@ -205,6 +200,10 @@ export type Order = {
       [internalGroqTypeReferenceTo]?: "product";
     };
     quantity?: number;
+    sellingUnit?: string;
+    otherSellingUnit?: string;
+    unitsPerSell?: number;
+    priceAtPurchase?: number;
     _key: string;
   }>;
   totalPrice?: number;
@@ -229,7 +228,6 @@ export type Product = {
   _rev: string;
   name?: string;
   productVariant?: "seeds" | "fertilizer" | "pesticide" | "herbicide" | "fungicide" | "machinery" | "parts" | "tools" | "irrigation" | "feed" | "vet" | "media" | "gear";
-  status?: "sale" | "new" | "hot" | string;
   slug?: Slug;
   nursery?: {
     _ref: string;
@@ -248,6 +246,10 @@ export type Product = {
   discount?: number;
   stock?: number;
   unit?: string;
+  sellingUnit?: "piece" | "kg" | "g" | "liter" | "ml" | "tray" | "pack" | "bag" | "other";
+  otherSellingUnit?: string;
+  unitsPerSell?: number;
+  allowFractional?: boolean;
   sku?: string;
   shortDescription?: string;
   detailedDescription?: BlockContent;
@@ -367,6 +369,7 @@ export type Nursery = {
   title?: string;
   slug?: Slug;
   description?: string;
+  rating?: number;
   image?: {
     asset?: {
       _ref: string;
@@ -378,6 +381,35 @@ export type Nursery = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  address?: string;
+  mapEmbedUrl?: string;
+  phoneNumber?: string;
+  email?: string;
+  website?: string;
+  openingHours?: string;
 };
 
 export type Category = {
@@ -481,6 +513,7 @@ export type NURSERY_QUERYResult = Array<{
   title?: string;
   slug?: Slug;
   description?: string;
+  rating?: number;
   image?: {
     asset?: {
       _ref: string;
@@ -492,9 +525,38 @@ export type NURSERY_QUERYResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  address?: string;
+  mapEmbedUrl?: string;
+  phoneNumber?: string;
+  email?: string;
+  website?: string;
+  openingHours?: string;
 }>;
 // Variable: LATEST_BLOG_QUERY
-// Query: *[_type == 'blog' && isLatest == true]|order(name asc){      ...,      blogcategories[]->{      title    }    }
+// Query: *[_type == 'blog' && isLatest == true]|order(name asc){      ...,      blogcategories[]->{      title    }    }
 export type LATEST_BLOG_QUERYResult = Array<{
   _id: string;
   _type: "blog";
@@ -528,10 +590,85 @@ export type LATEST_BLOG_QUERYResult = Array<{
   body?: BlockContent;
 }>;
 // Variable: DEAL_PRODUCTS
-// Query: *[_type == 'product' && status == 'hot'] | order(name asc){    ...,"categories": categories[]->title  }
+// Query: *[_type == 'product' && status == 'hot'] | order(name asc){    ...,"categories": categories[]->title  }
 export type DEAL_PRODUCTSResult = Array<never>;
+// Variable: NURSERY_BY_SLUG_QUERY
+// Query: *[_type == "nursery" && slug.current == $slug][0] {    ...,    "products": *[_type == "product" && references(^._id)] | order(name asc) {      _id,      name,      price,      discount,      stock,      "slug": slug.current,      images,      description,      productVariant    }  }
+export type NURSERY_BY_SLUG_QUERYResult = {
+  _id: string;
+  _type: "nursery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  rating?: number;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  address?: string;
+  mapEmbedUrl?: string;
+  phoneNumber?: string;
+  email?: string;
+  website?: string;
+  openingHours?: string;
+  products: Array<{
+    _id: string;
+    name: string | null;
+    price: number | null;
+    discount: number | null;
+    stock: number | null;
+    slug: string | null;
+    images: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }> | null;
+    description: null;
+    productVariant: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet" | null;
+  }>;
+} | null;
 // Variable: PRODUCT_BY_SLUG_QUERY
-// Query: *[_type == "product" && slug.current == $slug][0]{    ..., // <-- This is the most important part! Fetches all new agri-fields    nursery->, // <-- Gets all the nursery information (title, logo, etc.)    categories[]->{title, "slug": slug.current}, // <-- Expands all categories    relatedProducts[]->{ // <-- Expands related products for "you may also like"      name,      "slug": slug.current,      images,      price,      discount,      shortDescription    }  }
+// Query: *[_type == "product" && slug.current == $slug][0]{    ...,     nursery->,     categories[]->{title, "slug": slug.current},     relatedProducts[]->{       name,      "slug": slug.current,      images,      price,      discount,      shortDescription    }  }
 export type PRODUCT_BY_SLUG_QUERYResult = {
   _id: string;
   _type: "product";
@@ -550,6 +687,7 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
     title?: string;
     slug?: Slug;
     description?: string;
+    rating?: number;
     image?: {
       asset?: {
         _ref: string;
@@ -561,6 +699,35 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    coverImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    gallery?: Array<{
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+      _key: string;
+    }>;
+    address?: string;
+    mapEmbedUrl?: string;
+    phoneNumber?: string;
+    email?: string;
+    website?: string;
+    openingHours?: string;
   } | null;
   categories: Array<{
     title: string | null;
@@ -570,6 +737,9 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   discount?: number;
   stock?: number;
   unit?: string;
+  sellingUnit?: "bag" | "g" | "kg" | "liter" | "ml" | "other" | "pack" | "piece" | "tray";
+  otherSellingUnit?: string;
+  unitsPerSell?: number;
   sku?: string;
   shortDescription?: string;
   detailedDescription?: BlockContent;
@@ -675,7 +845,7 @@ export type NURSERY_QUERY_BY_PRODUCTResult = Array<{
   nurseryName: string | null;
 }>;
 // Variable: MY_ORDERS_QUERY
-// Query: *[_type == 'order' && clerkUserId == $userId] | order(orderData desc){...,products[]{  ...,product->}}
+// Query: *[_type == 'order' && clerkUserId == $userId] | order(orderDate desc){    ...,    "products": products[]{      ...,      product->    }  }
 export type MY_ORDERS_QUERYResult = Array<{
   _id: string;
   _type: "order";
@@ -683,17 +853,12 @@ export type MY_ORDERS_QUERYResult = Array<{
   _updatedAt: string;
   _rev: string;
   orderNumber?: string;
-  invoice?: {
-    id?: string;
-    number?: string;
-    hosted_invoice_url?: string;
-  };
-  stripeCheckoutSessionId?: string;
-  stripeCustomerId?: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpaySignature?: string;
   clerkUserId?: string;
   customerName?: string;
   email?: string;
-  stripePaymentIntentId?: string;
   products: Array<{
     product: {
       _id: string;
@@ -721,6 +886,9 @@ export type MY_ORDERS_QUERYResult = Array<{
       discount?: number;
       stock?: number;
       unit?: string;
+      sellingUnit?: "bag" | "g" | "kg" | "liter" | "ml" | "other" | "pack" | "piece" | "tray";
+      otherSellingUnit?: string;
+      unitsPerSell?: number;
       sku?: string;
       shortDescription?: string;
       detailedDescription?: BlockContent;
@@ -809,6 +977,10 @@ export type MY_ORDERS_QUERYResult = Array<{
       prescriptionRequired?: boolean;
     } | null;
     quantity?: number;
+    sellingUnit?: string;
+    otherSellingUnit?: string;
+    unitsPerSell?: number;
+    priceAtPurchase?: number;
     _key: string;
   }> | null;
   totalPrice?: number;
@@ -825,7 +997,7 @@ export type MY_ORDERS_QUERYResult = Array<{
   orderDate?: string;
 }>;
 // Variable: GET_ALL_BLOG
-// Query: *[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{  ...,       blogcategories[]->{    title}    }
+// Query: *[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{  ...,        blogcategories[]->{    title}    }
 export type GET_ALL_BLOGResult = Array<{
   _id: string;
   _type: "blog";
@@ -859,7 +1031,7 @@ export type GET_ALL_BLOGResult = Array<{
   body?: BlockContent;
 }>;
 // Variable: SINGLE_BLOG_QUERY
-// Query: *[_type == "blog" && slug.current == $slug][0]{  ...,     author->{    name,    image,  },  blogcategories[]->{    title,    "slug": slug.current,  },}
+// Query: *[_type == "blog" && slug.current == $slug][0]{  ...,     author->{    name,    image,  },  blogcategories[]->{    title,    "slug": slug.current,  },}
 export type SINGLE_BLOG_QUERYResult = {
   _id: string;
   _type: "blog";
@@ -902,7 +1074,7 @@ export type SINGLE_BLOG_QUERYResult = {
   body?: BlockContent;
 } | null;
 // Variable: BLOG_CATEGORIES
-// Query: *[_type == "blog"]{     blogcategories[]->{    ...    }  }
+// Query: *[_type == "blog"]{      blogcategories[]->{    ...    }  }
 export type BLOG_CATEGORIESResult = Array<{
   blogcategories: Array<{
     _id: string;
@@ -916,7 +1088,7 @@ export type BLOG_CATEGORIESResult = Array<{
   }> | null;
 }>;
 // Variable: OTHERS_BLOG_QUERY
-// Query: *[  _type == "blog"  && defined(slug.current)  && slug.current != $slug]|order(publishedAt desc)[0...$quantity]{...  publishedAt,  title,  mainImage,  slug,  author->{    name,    image,  },  categories[]->{    title,    "slug": slug.current,  }}
+// Query: *[  _type == "blog"  && defined(slug.current)  && slug.current != $slug]|order(publishedAt desc)[0...$quantity]{...  publishedAt,  title,  mainImage,  slug,  author->{    name,    image,  },  categories[]->{    title,    "slug": slug.current,  }}
 export type OTHERS_BLOG_QUERYResult = Array<{
   title: string | null;
   mainImage: {
@@ -953,14 +1125,15 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type=='nursery'] | order(name asc) ": NURSERY_QUERYResult;
-    " *[_type == 'blog' && isLatest == true]|order(name asc){\n\xA0 \xA0 \xA0 ...,\n\xA0 \xA0 \xA0 blogcategories[]->{\n\xA0 \xA0 \xA0 title\n\xA0 \xA0 }\n\xA0 \xA0 }": LATEST_BLOG_QUERYResult;
-    "*[_type == 'product' && status == 'hot'] | order(name asc){\n\xA0 \xA0 ...,\"categories\": categories[]->title\n\xA0 }": DEAL_PRODUCTSResult;
-    "*[_type == \"product\" && slug.current == $slug][0]{\n    ..., // <-- This is the most important part! Fetches all new agri-fields\n    nursery->, // <-- Gets all the nursery information (title, logo, etc.)\n    categories[]->{title, \"slug\": slug.current}, // <-- Expands all categories\n    relatedProducts[]->{ // <-- Expands related products for \"you may also like\"\n      name,\n      \"slug\": slug.current,\n      images,\n      price,\n      discount,\n      shortDescription\n    }\n  }": PRODUCT_BY_SLUG_QUERYResult;
+    " *[_type == 'blog' && isLatest == true]|order(name asc){\n      ...,\n      blogcategories[]->{\n      title\n    }\n    }": LATEST_BLOG_QUERYResult;
+    "*[_type == 'product' && status == 'hot'] | order(name asc){\n    ...,\"categories\": categories[]->title\n  }": DEAL_PRODUCTSResult;
+    "\n  *[_type == \"nursery\" && slug.current == $slug][0] {\n    ...,\n    \"products\": *[_type == \"product\" && references(^._id)] | order(name asc) {\n      _id,\n      name,\n      price,\n      discount,\n      stock,\n      \"slug\": slug.current,\n      images,\n      description,\n      productVariant\n    }\n  }\n": NURSERY_BY_SLUG_QUERYResult;
+    "*[_type == \"product\" && slug.current == $slug][0]{\n    ..., \n    nursery->, \n    categories[]->{title, \"slug\": slug.current}, \n    relatedProducts[]->{ \n      name,\n      \"slug\": slug.current,\n      images,\n      price,\n      discount,\n      shortDescription\n    }\n  }": PRODUCT_BY_SLUG_QUERYResult;
     "*[_type == \"product\" && slug.current == $slug]{\n  \"nurseryName\": nursery->title\n }": NURSERY_QUERY_BY_PRODUCTResult;
-    "*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){\n...,products[]{\n\xA0 ...,product->\n}\n}": MY_ORDERS_QUERYResult;
-    "*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{\n\xA0 ..., \xA0\n\xA0 \xA0 \xA0blogcategories[]->{\n\xA0 \xA0 title\n}\n\xA0 \xA0 }\n\xA0 ": GET_ALL_BLOGResult;
-    "*[_type == \"blog\" && slug.current == $slug][0]{\n\xA0 ..., \n\xA0 \xA0 author->{\n\xA0 \xA0 name,\n\xA0 \xA0 image,\n\xA0 },\n\xA0 blogcategories[]->{\n\xA0 \xA0 title,\n\xA0 \xA0 \"slug\": slug.current,\n\xA0 },\n}": SINGLE_BLOG_QUERYResult;
-    "*[_type == \"blog\"]{\n\xA0 \xA0 \xA0blogcategories[]->{\n\xA0 \xA0 ...\n\xA0 \xA0 }\n\xA0 }": BLOG_CATEGORIESResult;
-    "*[\n\xA0 _type == \"blog\"\n\xA0 && defined(slug.current)\n\xA0 && slug.current != $slug\n]|order(publishedAt desc)[0...$quantity]{\n...\n\xA0 publishedAt,\n\xA0 title,\n\xA0 mainImage,\n\xA0 slug,\n\xA0 author->{\n\xA0 \xA0 name,\n\xA0 \xA0 image,\n\xA0 },\n\xA0 categories[]->{\n\xA0 \xA0 title,\n\xA0 \xA0 \"slug\": slug.current,\n\xA0 }\n}": OTHERS_BLOG_QUERYResult;
+    "\n  *[_type == 'order' && clerkUserId == $userId] | order(orderDate desc){\n    ...,\n    \"products\": products[]{\n      ...,\n      product->\n    }\n  }\n": MY_ORDERS_QUERYResult;
+    "*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{\n  ...,  \n      blogcategories[]->{\n    title\n}\n    }\n  ": GET_ALL_BLOGResult;
+    "*[_type == \"blog\" && slug.current == $slug][0]{\n  ..., \n    author->{\n    name,\n    image,\n  },\n  blogcategories[]->{\n    title,\n    \"slug\": slug.current,\n  },\n}": SINGLE_BLOG_QUERYResult;
+    "*[_type == \"blog\"]{\n      blogcategories[]->{\n    ...\n    }\n  }": BLOG_CATEGORIESResult;
+    "*[\n  _type == \"blog\"\n  && defined(slug.current)\n  && slug.current != $slug\n]|order(publishedAt desc)[0...$quantity]{\n...\n  publishedAt,\n  title,\n  mainImage,\n  slug,\n  author->{\n    name,\n    image,\n  },\n  categories[]->{\n    title,\n    \"slug\": slug.current,\n  }\n}": OTHERS_BLOG_QUERYResult;
   }
 }

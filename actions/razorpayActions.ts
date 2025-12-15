@@ -100,6 +100,10 @@ export async function verifyAndFulfillOrder(
         _ref: item.product?._id,
       },
       quantity: item.quantity,
+      sellingUnit: item.product?.sellingUnit ?? item.product?.unit ?? null,
+      otherSellingUnit: item.product?.otherSellingUnit ?? null,
+      unitsPerSell: item.product?.unitsPerSell ?? null,
+      priceAtPurchase: item.product?.price ?? 0,
     }));
 
     // ✅ GENERATE CUSTOM INVOICE DATA
@@ -146,12 +150,11 @@ export async function verifyAndFulfillOrder(
     });
 
     // Update Stock
-    const stockPromises = items.map((item) => 
-       backendClient
-         .patch(item.product?._id!)
-         .dec({ stock: item.quantity }) 
-         .commit()
-    );
+    const stockPromises = items.map((item) => {
+      const unitsPerSell = item.product?.unitsPerSell ?? 1;
+      const decAmount = (item.quantity ?? 0) * unitsPerSell;
+      return backendClient.patch(item.product?._id!).dec({ stock: decAmount }).commit();
+    });
     await Promise.all(stockPromises);
 
     return { success: true, orderId: order._id };

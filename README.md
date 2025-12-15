@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Selling Unit Feature (Agri-specific)
+
+- Admins can now set how a product is sold with the `Selling Unit` field in Sanity (e.g., `tray`, `pack`, `kg`, `other`).
+- If `Other` is selected, an additional `If Other, Please Specify` field appears for a custom label.
+- Optional `Units per Selling Unit` records how many base units are included in a selling unit (e.g., 10 seeds per pack).
+- The frontend displays price as "price / unit" and the cart/order snapshots store `sellingUnit`, `unitsPerSell`, and `priceAtPurchase` so calculation and records are consistent.
+
+Files changed:
+- `sanity/schemaTypes/productType.ts` (added `sellingUnit`, `otherSellingUnit`, `unitsPerSell`)
+- `sanity/schemaTypes/orderType.ts` (snapshot fields added for unit and price)
+- `components/PriceView.tsx`, `components/ProductCard.tsx`, `components/AddToCartButton.tsx`, `app/(client)/cart/page.tsx`, and `actions/razorpayActions.ts` (UI and order creation updates).

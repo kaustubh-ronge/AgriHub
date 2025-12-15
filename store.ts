@@ -9,8 +9,8 @@ export interface CartItem {
 
 interface StoreState {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
+  addItem: (product: Product, quantity?: number) => void;
+  removeItem: (productId: string, quantity?: number) => void;
   deleteCartProduct: (productId: string) => void;
   resetCart: () => void;
   getTotalPrice: () => number;
@@ -29,7 +29,7 @@ const useStore = create<StoreState>()(
     (set, get) => ({
       items: [],
       favoriteProduct: [],
-      addItem: (product) =>
+      addItem: (product, quantity = 1) =>
         set((state) => {
           const existingItem = state.items.find(
             (item) => item.product._id === product._id
@@ -38,20 +38,21 @@ const useStore = create<StoreState>()(
             return {
               items: state.items.map((item) =>
                 item.product._id === product._id
-                  ? { ...item, quantity: item.quantity + 1 }
+                  ? { ...item, quantity: Number((item.quantity + quantity).toFixed(3)) }
                   : item
               ),
             };
           } else {
-            return { items: [...state.items, { product, quantity: 1 }] };
+            return { items: [...state.items, { product, quantity }] };
           }
         }),
-      removeItem: (productId) =>
+      removeItem: (productId, quantity = 1) =>
         set((state) => ({
           items: state.items.reduce((acc, item) => {
             if (item.product._id === productId) {
-              if (item.quantity > 1) {
-                acc.push({ ...item, quantity: item.quantity - 1 });
+              const newQty = Number((item.quantity - quantity).toFixed(3));
+              if (newQty > 0) {
+                acc.push({ ...item, quantity: newQty });
               }
             } else {
               acc.push(item);

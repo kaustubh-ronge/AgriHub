@@ -14,9 +14,16 @@ const QuantityButtons = ({ product, className }: Props) => {
   const { addItem, removeItem, getItemCount } = useStore();
   const itemCount = getItemCount(product?._id);
   const isOutOfStock = product?.stock === 0;
+  const getStep = () => {
+    if (product?.allowFractional) return 0.1;
+    const su = (product?.sellingUnit || product?.unit || "").toString();
+    if (su === "kg" || su === "liter") return 0.1;
+    return 1;
+  };
+  const step = getStep();
 
   const handleRemoveProduct = () => {
-    removeItem(product?._id);
+    removeItem(product?._id, step);
     if (itemCount > 1) {
       toast.success("Quantity Decreased successfully!");
     } else {
@@ -26,7 +33,7 @@ const QuantityButtons = ({ product, className }: Props) => {
 
   const handleAddToCart = () => {
     if ((product?.stock as number) > itemCount) {
-      addItem(product);
+      addItem(product, step);
       toast.success("Quantity Increased successfully!");
     } else {
       toast.error("Can not add more than available stock");
@@ -44,8 +51,8 @@ const QuantityButtons = ({ product, className }: Props) => {
       >
         <Minus />
       </Button>
-      <span className="font-semibold text-sm w-6 text-center text-darkColor">
-        {itemCount}
+      <span className="font-semibold text-sm w-10 text-center text-darkColor">
+        {step < 1 ? itemCount.toFixed(1) : itemCount}
       </span>
       <Button
         onClick={handleAddToCart}

@@ -70,19 +70,43 @@ export const orderType = defineType({
               title: "Quantity Purchased",
               type: "number",
             }),
+            // Snapshot fields to record selling unit info and price at purchase
+            defineField({
+              name: "sellingUnit",
+              title: "Selling Unit",
+              type: "string",
+            }),
+            defineField({
+              name: "otherSellingUnit",
+              title: "Other Selling Unit (if any)",
+              type: "string",
+            }),
+            defineField({
+              name: "unitsPerSell",
+              title: "Units per Selling Unit",
+              type: "number",
+            }),
+            defineField({
+              name: "priceAtPurchase",
+              title: "Price at Purchase",
+              type: "number",
+            }),
           ],
           preview: {
             select: {
               product: "product.name",
               quantity: "quantity",
               image: "product.image",
-              price: "product.price",
-              currency: "product.currency",
+              priceAtPurchase: "priceAtPurchase",
+              sellingUnit: "sellingUnit",
+              otherSellingUnit: "otherSellingUnit",
             },
             prepare(select) {
+              const unitLabel = select.sellingUnit === "other" ? select.otherSellingUnit : select.sellingUnit;
+              const price = select.priceAtPurchase ?? 0;
               return {
                 title: `${select.product} x ${select.quantity}`,
-                subtitle: `${select.price * select.quantity}`,
+                subtitle: `${price * select.quantity} ${unitLabel ? ` / ${unitLabel}` : ""}`,
                 media: select.image,
               };
             },

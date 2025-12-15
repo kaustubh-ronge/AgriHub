@@ -232,6 +232,8 @@ const CartPage = () => {
                               </h2>
                               <p className="text-sm text-gray-500">
                                 Variant: <span className="font-medium text-gray-900">{product?.productVariant}</span>
+                                <br />
+                                <span className="text-xs text-gray-500">Unit: <span className="font-medium text-gray-900">{(product?.sellingUnit === "other" ? product?.otherSellingUnit : product?.sellingUnit) || product?.unit}{product?.unitsPerSell ? ` (${product.unitsPerSell} per)` : ''}</span></span>
                               </p>
 
                               <div className="pt-2 flex items-center gap-4">
@@ -258,10 +260,13 @@ const CartPage = () => {
                           </div>
 
                           <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-4">
-                            <PriceFormatter
-                              amount={(product?.price as number) * itemCount}
-                              className="font-bold text-xl text-gray-900"
-                            />
+                            <div className="flex items-baseline gap-2">
+                              <PriceFormatter
+                                amount={(product?.price as number) * itemCount}
+                                className="font-bold text-xl text-gray-900"
+                              />
+                              <span className="text-sm text-gray-500">/ {(product?.sellingUnit === "other" ? product?.otherSellingUnit : product?.sellingUnit) || product?.unit}</span>
+                            </div>
                             <QuantityButtons product={product} />
                           </div>
                         </div>

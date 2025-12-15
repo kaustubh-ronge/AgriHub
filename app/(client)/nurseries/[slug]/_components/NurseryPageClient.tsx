@@ -142,7 +142,7 @@ export default function NurseryPageClient({ nursery }: NurseryPageClientProps) {
                       <span className="text-sm text-gray-500 font-medium uppercase tracking-wider">Contact Email</span>
                       <span className="text-gray-900 font-semibold flex items-center gap-2">
                         <Mail size={16} className="text-green-600" />
-                        {nursery.email || "contact@agrihub.com"}
+                        {nursery.email || "contact@BRC.com"}
                       </span>
                     </div>
                   </div>

@@ -26,9 +26,14 @@ export const categoriesData = [
 ];
 
 export const productType = [
-  { title: "Plant", value: "plant" },
-  { title: "Seeds", value: "Seeds" },
+  { title: "Plant", value: "plants" },
+  { title: "Seeds", value: "seeds" },
   { title: "Fertilizer", value: "fertilizer" },
+  { title: "Pesticide", value: "pesticide" },
+  { title: "Herbicide", value: "herbicide" },
+  { title: "Fungicide", value: "fungicide" },
+  { title: "Tools", value: "tools" },
+  { title: "Irrigation", value: "irrigation" },
   { title: "Other", value: "other" },
 ];
 

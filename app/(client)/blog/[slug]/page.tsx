@@ -21,7 +21,7 @@ const SingleBlogPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const blog: SINGLE_BLOG_QUERYResult = await getSingleBlog(slug);
+  const blog = await getSingleBlog(slug);
   if (!blog) return notFound();
 
   return (
@@ -40,15 +40,15 @@ const SingleBlogPage = async ({
           <div>
             <div className="text-xs flex items-center gap-5 my-7">
               <div className="flex items-center relative group cursor-pointer">
-                {blog?.blogcategories?.map(
-                  (item: { title: string }, index: number) => (
+                {blog?.blogcategories?.map((item, index) =>
+                  item?.title ? (
                     <p
                       key={index}
                       className="font-semibold text-shop_dark_green tracking-wider"
                     >
-                      {item?.title}
+                      {item.title}
                     </p>
-                  )
+                  ) : null
                 )}
                 <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect" />
               </div>
@@ -200,40 +200,49 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
       <div className="border border-lightColor p-5 rounded-md">
         <Title className="text-base">Blog Categories</Title>
         <div className="space-y-2 mt-2">
-          {categories?.map(({ blogcategories }, index) => (
-            <div
-              key={index}
-              className="text-lightColor flex items-center justify-between text-sm font-medium"
-            >
-              <p>{blogcategories[0]?.title}</p>
-              <p className="text-darkColor font-semibold">{`(1)`}</p>
-            </div>
-          ))}
+          {categories?.map(({ blogcategories }, index) => {
+            const title = blogcategories?.[0]?.title || "Untitled";
+
+            return (
+              <div
+                key={index}
+                className="text-lightColor flex items-center justify-between text-sm font-medium"
+              >
+                <p>{title}</p>
+                <p className="text-darkColor font-semibold">{`(1)`}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="border border-lightColor p-5 rounded-md mt-10">
         <Title className="text-base">Latest Blogs</Title>
         <div className="space-y-4 mt-4">
-          {blogs?.map((blog: Blog, index: number) => (
-            <Link
-              href={`/blog/${blog?.slug?.current}`}
-              key={index}
-              className="flex items-center gap-2 group"
-            >
-              {blog?.mainImage && (
-                <Image
-                  src={urlFor(blog?.mainImage).url()}
-                  alt="blogImage"
-                  width={100}
-                  height={100}
-                  className="w-16 h-16 rounded-full object-cover border-[1px] border-shop_dark_green/10 group-hover:border-shop_dark_green hoverEffect"
-                />
-              )}
-              <p className="line-clamp-2 text-sm text-lightColor group-hover:text-shop_dark_green hoverEffect">
-                {blog?.title}
-              </p>
-            </Link>
-          ))}
+          {blogs?.map((blog, index) => {
+            const slugCurrent = blog?.slug?.current;
+
+            return (
+              <Link
+                href={slugCurrent ? `/blog/${slugCurrent}` : "#"}
+                key={index}
+                className="flex items-center gap-2 group"
+                aria-disabled={!slugCurrent}
+              >
+                {blog?.mainImage && (
+                  <Image
+                    src={urlFor(blog?.mainImage).url()}
+                    alt="blogImage"
+                    width={100}
+                    height={100}
+                    className="w-16 h-16 rounded-full object-cover border-[1px] border-shop_dark_green/10 group-hover:border-shop_dark_green hoverEffect"
+                  />
+                )}
+                <p className="line-clamp-2 text-sm text-lightColor group-hover:text-shop_dark_green hoverEffect">
+                  {blog?.title || "Untitled"}
+                </p>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
