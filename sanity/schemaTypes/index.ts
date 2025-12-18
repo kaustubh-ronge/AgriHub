@@ -9,6 +9,10 @@ import { blogCategoryType } from "./blogCategoryType";
 import { authorType } from "./authorType";
 import { addressType } from "./addressType";
 import { blockContent } from "./blockContent";
+import { fertilizerFormulaType } from "./fertilizerFormulaType";
+import { plantBreedType } from "./plantBreadType";
+import { homeBannerType } from "./homeBannerType";
+import { newsletter } from "./newsletter";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,5 +26,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorType,
     addressType,
     blockContent,
+    fertilizerFormulaType,
+    plantBreedType,
+    homeBannerType,
+    newsletter,
   ],
 };

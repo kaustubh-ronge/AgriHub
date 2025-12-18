@@ -8,10 +8,10 @@ import GoogleTranslateManager from "@/components/GoogleTranslateManager";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - AgriHub online store",
-    default: "AgriHub online store",
+    template: "%s - Bajbalkar Ropvatika & Consultancy BRC",
+    default: "Bajbalkar Ropvatika & Consultancy BRC",
   },
-  description: "AgriHub online store, Your one stop shop for all your needs",
+  description: "Bajbalkar Ropvatika & Consultancy BRC - Your one-stop shop for quality nursery products and agricultural supplies.",
 };
 
 export default function RootLayout({

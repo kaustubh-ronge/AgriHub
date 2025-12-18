@@ -46,6 +46,85 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Newsletter = {
+  _id: string;
+  _type: "newsletter";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  email?: string;
+  createdAt?: string;
+};
+
+export type HomeBanner = {
+  _id: string;
+  _type: "homeBanner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  mediaType?: "image" | "video";
+  bannerImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  bannerVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  autoPlay?: boolean;
+  showAnimation?: boolean;
+  ownerName?: string;
+};
+
+export type PlantBreed = {
+  _id: string;
+  _type: "plantBreed";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  plantName?: string;
+  breedName?: string;
+  seedUsed?: string;
+  varietyType?: "hybrid" | "f1" | "desi";
+  description?: string;
+  createdBy?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+};
+
+export type FertilizerFormula = {
+  _id: string;
+  _type: "fertilizerFormula";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  formulaName?: string;
+  npk?: string;
+  fertilizerForm?: "granular" | "liquid" | "powder";
+  releaseType?: "quick" | "slow";
+  isOrganic?: boolean;
+  description?: string;
+};
+
 export type BlockContent = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -87,7 +166,7 @@ export type Address = {
   address?: string;
   city?: string;
   state?: string;
-  zip?: string;
+  pinCode?: string;
   default?: boolean;
   createdAt?: string;
 };
@@ -101,6 +180,38 @@ export type Blogcategory = {
   title?: string;
   slug?: Slug;
   description?: string;
+  promotionType?: "image" | "video";
+  promoImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  promoVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  videoPoster?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
 export type Blog = {
@@ -117,7 +228,28 @@ export type Blog = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "author";
   };
+  mediaType?: "image" | "video";
   mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  blogVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  videoPoster?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -211,7 +343,7 @@ export type Order = {
   amountDiscount?: number;
   address?: {
     state?: string;
-    zip?: string;
+    pinCode?: string;
     city?: string;
     address?: string;
     name?: string;
@@ -227,7 +359,7 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   name?: string;
-  productVariant?: "seeds" | "fertilizer" | "pesticide" | "herbicide" | "fungicide" | "machinery" | "parts" | "tools" | "irrigation" | "feed" | "vet" | "media" | "gear";
+  productVariant?: "plants" | "seeds" | "fertilizer" | "pesticide" | "herbicide" | "fungicide" | "machinery" | "parts" | "tools" | "irrigation" | "feed" | "vet" | "media" | "gear";
   slug?: Slug;
   nursery?: {
     _ref: string;
@@ -250,7 +382,6 @@ export type Product = {
   otherSellingUnit?: string;
   unitsPerSell?: number;
   allowFractional?: boolean;
-  sku?: string;
   shortDescription?: string;
   detailedDescription?: BlockContent;
   whatsappNumber?: string;
@@ -336,6 +467,7 @@ export type Product = {
   dosage?: string;
   storageInstructions?: string;
   prescriptionRequired?: boolean;
+  reviewCount?: number;
 };
 
 export type SanityFileAsset = {
@@ -499,7 +631,7 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | BlockContent | Address | Blogcategory | Blog | Author | Order | Product | SanityFileAsset | Nursery | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | Newsletter | HomeBanner | PlantBreed | FertilizerFormula | BlockContent | Address | Blogcategory | Blog | Author | Order | Product | SanityFileAsset | Nursery | Category | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/queries/query.ts
 // Variable: NURSERY_QUERY
@@ -571,7 +703,28 @@ export type LATEST_BLOG_QUERYResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "author";
   };
+  mediaType?: "image" | "video";
   mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  blogVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  videoPoster?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -664,7 +817,7 @@ export type NURSERY_BY_SLUG_QUERYResult = {
       _key: string;
     }> | null;
     description: null;
-    productVariant: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet" | null;
+    productVariant: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "plants" | "seeds" | "tools" | "vet" | null;
   }>;
 } | null;
 // Variable: PRODUCT_BY_SLUG_QUERY
@@ -676,7 +829,7 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   _updatedAt: string;
   _rev: string;
   name?: string;
-  productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet";
+  productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "plants" | "seeds" | "tools" | "vet";
   slug?: Slug;
   nursery: {
     _id: string;
@@ -740,7 +893,7 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   sellingUnit?: "bag" | "g" | "kg" | "liter" | "ml" | "other" | "pack" | "piece" | "tray";
   otherSellingUnit?: string;
   unitsPerSell?: number;
-  sku?: string;
+  allowFractional?: boolean;
   shortDescription?: string;
   detailedDescription?: BlockContent;
   whatsappNumber?: string;
@@ -838,6 +991,7 @@ export type PRODUCT_BY_SLUG_QUERYResult = {
   dosage?: string;
   storageInstructions?: string;
   prescriptionRequired?: boolean;
+  reviewCount?: number;
 } | null;
 // Variable: NURSERY_QUERY_BY_PRODUCT
 // Query: *[_type == "product" && slug.current == $slug]{  "nurseryName": nursery->title }
@@ -867,7 +1021,7 @@ export type MY_ORDERS_QUERYResult = Array<{
       _updatedAt: string;
       _rev: string;
       name?: string;
-      productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "seeds" | "tools" | "vet";
+      productVariant?: "feed" | "fertilizer" | "fungicide" | "gear" | "herbicide" | "irrigation" | "machinery" | "media" | "parts" | "pesticide" | "plants" | "seeds" | "tools" | "vet";
       slug?: Slug;
       nursery?: {
         _ref: string;
@@ -889,7 +1043,7 @@ export type MY_ORDERS_QUERYResult = Array<{
       sellingUnit?: "bag" | "g" | "kg" | "liter" | "ml" | "other" | "pack" | "piece" | "tray";
       otherSellingUnit?: string;
       unitsPerSell?: number;
-      sku?: string;
+      allowFractional?: boolean;
       shortDescription?: string;
       detailedDescription?: BlockContent;
       whatsappNumber?: string;
@@ -975,6 +1129,7 @@ export type MY_ORDERS_QUERYResult = Array<{
       dosage?: string;
       storageInstructions?: string;
       prescriptionRequired?: boolean;
+      reviewCount?: number;
     } | null;
     quantity?: number;
     sellingUnit?: string;
@@ -988,7 +1143,7 @@ export type MY_ORDERS_QUERYResult = Array<{
   amountDiscount?: number;
   address?: {
     state?: string;
-    zip?: string;
+    pinCode?: string;
     city?: string;
     address?: string;
     name?: string;
@@ -1012,7 +1167,28 @@ export type GET_ALL_BLOGResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "author";
   };
+  mediaType?: "image" | "video";
   mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  blogVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  videoPoster?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1054,7 +1230,28 @@ export type SINGLE_BLOG_QUERYResult = {
       _type: "image";
     } | null;
   } | null;
+  mediaType?: "image" | "video";
   mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  blogVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  videoPoster?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1085,6 +1282,38 @@ export type BLOG_CATEGORIESResult = Array<{
     title?: string;
     slug?: Slug;
     description?: string;
+    promotionType?: "image" | "video";
+    promoImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    promoVideo?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      _type: "file";
+    };
+    videoPoster?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
   }> | null;
 }>;
 // Variable: OTHERS_BLOG_QUERY
@@ -1119,6 +1348,63 @@ export type OTHERS_BLOG_QUERYResult = Array<{
   } | null;
   categories: null;
 }>;
+// Variable: HOME_BANNER_QUERY
+// Query: *[_type == "homeBanner"][0]{    title,    subtitle,    ctaText,    ctaLink,    mediaType,    bannerImage,    bannerVideo{      asset->{        url      }    },    autoPlay,    showAnimation,    ownerName  }
+export type HOME_BANNER_QUERYResult = {
+  title: string | null;
+  subtitle: string | null;
+  ctaText: string | null;
+  ctaLink: string | null;
+  mediaType: "image" | "video" | null;
+  bannerImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  bannerVideo: {
+    asset: {
+      url: string | null;
+    } | null;
+  } | null;
+  autoPlay: boolean | null;
+  showAnimation: boolean | null;
+  ownerName: string | null;
+} | null;
+// Variable: VIDEO_BLOG_QUERY
+// Query: *[    _type == "blog"    && mediaType == "video"  ] | order(publishedAt desc){    _id,    title,    slug,    publishedAt,    mediaType,    blogVideo{      asset->{        url      }    },    videoPoster,    blogcategories[]->{      title,      "slug": slug.current    }  }
+export type VIDEO_BLOG_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  publishedAt: string | null;
+  mediaType: "image" | "video" | null;
+  blogVideo: {
+    asset: {
+      url: string | null;
+    } | null;
+  } | null;
+  videoPoster: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  blogcategories: Array<{
+    title: string | null;
+    slug: string | null;
+  }> | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1135,5 +1421,7 @@ declare module "@sanity/client" {
     "*[_type == \"blog\" && slug.current == $slug][0]{\n  ..., \n    author->{\n    name,\n    image,\n  },\n  blogcategories[]->{\n    title,\n    \"slug\": slug.current,\n  },\n}": SINGLE_BLOG_QUERYResult;
     "*[_type == \"blog\"]{\n      blogcategories[]->{\n    ...\n    }\n  }": BLOG_CATEGORIESResult;
     "*[\n  _type == \"blog\"\n  && defined(slug.current)\n  && slug.current != $slug\n]|order(publishedAt desc)[0...$quantity]{\n...\n  publishedAt,\n  title,\n  mainImage,\n  slug,\n  author->{\n    name,\n    image,\n  },\n  categories[]->{\n    title,\n    \"slug\": slug.current,\n  }\n}": OTHERS_BLOG_QUERYResult;
+    "\n  *[_type == \"homeBanner\"][0]{\n    title,\n    subtitle,\n    ctaText,\n    ctaLink,\n    mediaType,\n    bannerImage,\n    bannerVideo{\n      asset->{\n        url\n      }\n    },\n    autoPlay,\n    showAnimation,\n    ownerName\n  }\n": HOME_BANNER_QUERYResult;
+    "\n  *[\n    _type == \"blog\"\n    && mediaType == \"video\"\n  ] | order(publishedAt desc){\n    _id,\n    title,\n    slug,\n    publishedAt,\n    mediaType,\n    blogVideo{\n      asset->{\n        url\n      }\n    },\n    videoPoster,\n    blogcategories[]->{\n      title,\n      \"slug\": slug.current\n    }\n  }\n": VIDEO_BLOG_QUERYResult;
   }
 }

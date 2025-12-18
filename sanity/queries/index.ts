@@ -12,6 +12,8 @@ import {
   PRODUCT_BY_SLUG_QUERY, // ✅ This is the new, powerful query
   SINGLE_BLOG_QUERY,
   NURSERY_BY_SLUG_QUERY,
+  HOME_BANNER_QUERY,
+  VIDEO_BLOG_QUERY,
 } from "./query";
 
 const getCategories = async (quantity?: number) => {
@@ -199,6 +201,34 @@ const getOthersBlog = async (slug: string, quantity: number) => {
     return [];
   }
 };
+
+const getHomeBanner = async () => {
+  try {
+    const { data } = await sanityFetch({
+      query: HOME_BANNER_QUERY,
+    });
+    return data ?? null;
+  } catch (error) {
+    console.log("Error fetching Home Banner:", error);
+    return null;
+  }
+};
+
+// 🎥 Fetch Video Blogs Only
+const getVideoBlogs = async (limit?: number) => {
+  try {
+    const { data } = await sanityFetch({
+      query: VIDEO_BLOG_QUERY,
+    });
+
+    return limit ? data?.slice(0, limit) : data ?? [];
+  } catch (error) {
+    console.log("Error fetching video blogs:", error);
+    return [];
+  }
+};
+
+
 export {
   getCategories,
   getAllNurseries,
@@ -211,4 +241,6 @@ export {
   getSingleBlog,
   getBlogCategories,
   getOthersBlog,
+  getHomeBanner,
+  getVideoBlogs,
 };

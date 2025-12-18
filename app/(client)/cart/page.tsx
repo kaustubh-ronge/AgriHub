@@ -114,7 +114,7 @@ const CartPage = () => {
         currency: "INR",
 
         // ✅ STYLING FOR AGRI HUB
-        name: "Agri Hub", // The main title in the popup
+        name: "Bajbalkar Ropvatika & Consultancy", // The main title in the popup
         description: `Order #${metadata.orderNumber.slice(0, 8).toUpperCase()}`,
         image: "https://your-logo-url.com/logo.png", // 🔴 REPLACE THIS WITH YOUR LOGO URL
         order_id: orderId,
@@ -376,7 +376,7 @@ const CartPage = () => {
                                     {address?.name}
                                   </Label>
                                   <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                                    {address.address}, {address.city}, {address.state} - {address.zip}
+                                    {address.address}, {address.city}, {address.state} - {address.pinCode}
                                   </p>
                                 </div>
                               </div>

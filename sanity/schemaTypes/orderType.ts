@@ -138,7 +138,7 @@ export const orderType = defineType({
       type: "object",
       fields: [
         defineField({ name: "state", title: "State", type: "string" }),
-        defineField({ name: "zip", title: "Zip Code", type: "string" }),
+        defineField({ name: "pinCode", title: "PIN Code", type: "string" }),
         defineField({ name: "city", title: "City", type: "string" }),
         defineField({ name: "address", title: "Address", type: "string" }),
         defineField({ name: "name", title: "Name", type: "string" }),

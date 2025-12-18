@@ -41,6 +41,13 @@ const PRODUCT_BY_SLUG_QUERY = defineQuery(
     ..., 
     nursery->, 
     categories[]->{title, "slug": slug.current}, 
+    "plantBreedData": plantBreedData->,
+    "fertilizerFormulaData": fertilizerFormulaData->, 
+    seedingDate,            
+    trayPlantCount,         
+    trayPrice,              
+    transplantDeadlineDays, 
+  
     relatedProducts[]->{ 
       name,
       "slug": slug.current,
@@ -118,6 +125,52 @@ const OTHERS_BLOG_QUERY = defineQuery(`*[
   }
 }`);
 
+
+
+
+const HOME_BANNER_QUERY = defineQuery(`
+  *[_type == "homeBanner"][0]{
+    title,
+    subtitle,
+    ctaText,
+    ctaLink,
+    mediaType,
+    bannerImage,
+    bannerVideo{
+      asset->{
+        url
+      }
+    },
+    autoPlay,
+    showAnimation,
+    ownerName
+  }
+`);
+
+// 🎥 VIDEO BLOGS ONLY (For Home Page & Reels)
+const VIDEO_BLOG_QUERY = defineQuery(`
+  *[
+    _type == "blog"
+    && mediaType == "video"
+  ] | order(publishedAt desc){
+    _id,
+    title,
+    slug,
+    publishedAt,
+    mediaType,
+    blogVideo{
+      asset->{
+        url
+      }
+    },
+    videoPoster,
+    blogcategories[]->{
+      title,
+      "slug": slug.current
+    }
+  }
+`);
+
 // ✅ Export everything together at the bottom
 export {
   NURSERY_QUERY,
@@ -130,5 +183,7 @@ export {
   SINGLE_BLOG_QUERY,
   BLOG_CATEGORIES,
   OTHERS_BLOG_QUERY,
-  NURSERY_BY_SLUG_QUERY 
+  NURSERY_BY_SLUG_QUERY,
+  HOME_BANNER_QUERY,
+  VIDEO_BLOG_QUERY,
 };

@@ -79,6 +79,13 @@ const ShopByNurseries = async () => {
           </div>
         ))}
       </div>
+      <p className="mt-6 text-sm text-gray-600">
+          We work with trusted nurseries and agriculture experts like
+          <strong> Krushi Saheb</strong>,
+          <strong> Bajbalkar Ropvatika</strong>, and verified consultants
+          to ensure healthy plants and genuine fertilizers.
+      </p>
+
     </div>
   );
 };

@@ -39,26 +39,17 @@ export const addressType = defineType({
       description: "Two letter state code (e.g. NY, CA)",
       validation: (Rule) => Rule.required().length(2).uppercase(),
     }),
-    defineField({
-      name: "zip",
-      title: "ZIP Code",
+     defineField({
+      name: "pinCode",
+      title: "PIN Code",
       type: "string",
-      description: "Format: 12345 or 12345-6789",
+      description: "6 digit area PIN code (e.g. 413304)",
       validation: (Rule) =>
         Rule.required()
-          .regex(/^\d{5}(-\d{4})?$/, {
-            name: "zipCode",
-            invert: false,
+          .regex(/^\d{6}$/, {
+            name: "pinCode",
           })
-          .custom((zip: string | undefined) => {
-            if (!zip) {
-              return "ZIP code is required";
-            }
-            if (!zip.match(/^\d{5}(-\d{4})?$/)) {
-              return "Please enter a valid ZIP code (e.g. 12345 or 12345-6789)";
-            }
-            return true;
-          }),
+          .error("PIN code must be exactly 6 digits"),
     }),
     defineField({
       name: "default",

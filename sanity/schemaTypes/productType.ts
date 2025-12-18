@@ -78,6 +78,72 @@ export const productType = defineType({
       of: [{ type: "reference", to: { type: "category" } }],
     }),
 
+    // --- REFERENCE FOR FERTILIZER ---
+    defineField({
+      name: "fertilizerFormulaData",
+      title: "Select Fertilizer Formula",
+      type: "reference",
+      to: [{ type: "fertilizerFormula" }], // Must match name in fertilizerFormulaType.ts
+      group: "agriData",
+      hidden: ({ document }) => document?.productVariant !== "fertilizer",
+    }),
+
+     // --- REFERENCE FOR PLANTS ---
+    defineField({
+      name: "plantBreedData",
+      title: "Select Plant Breed",
+      type: "reference",
+      to: [{ type: "plantBreed" }], // Must match name in plantBreadType.ts
+      group: "agriData",
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+
+
+        // Add these inside the agriData group in productType.ts
+    defineField({
+      name: "seedingDate",
+      title: "Seeding Date (Date Seed was put in Tray)",
+      type: "date",
+      group: "agriData",
+      description: "Used to calculate the current age of the seedling.",
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+    defineField({
+      name: "transplantDeadlineDays",
+      title: "Max Days for Transplanting",
+      type: "number",
+      group: "agriData",
+      description: "Maximum age (in days) the plant can stay in the nursery before it must be planted.",
+      initialValue: 30,
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+    defineField({
+      name: "trayPlantCount",
+      title: "Plants per Tray",
+      type: "number",
+      group: "agriData",
+      initialValue: 104,
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+    defineField({
+      name: "trayPrice",
+      title: "Price per Full Tray",
+      type: "number",
+      group: "agriData",
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+
+        // Inside the agriData group in productType.ts
+    defineField({
+      name: "soilRecommendation",
+      title: "Recommended Soil",
+      type: "string",
+      group: "agriData", // You can also put this in breed schema
+      options: {
+        list: ["Black Soil", "Red Soil", "Sandy Soil", "All Types"]
+      }
+    }),
+
     // --- DETAILS & PRICING GROUP ---
     defineField({
       name: "price",
@@ -156,12 +222,12 @@ export const productType = defineType({
       description: "If true, customers can buy fractional quantities (e.g., 0.5 kg).",
       initialValue: false,
     }),
-    defineField({
-      name: "sku",
-      title: "SKU (Stock Keeping Unit)",
-      type: "string",
-      group: "details",
-    }),
+    // defineField({
+    //   name: "sku",
+    //   title: "SKU (Stock Keeping Unit)",
+    //   type: "string",
+    //   group: "details",
+    // }),
     defineField({
       name: "shortDescription",
       title: "Short Description",
@@ -678,6 +744,21 @@ export const productType = defineType({
       initialValue: false,
       hidden: ({ document }) => document?.productVariant !== "vet",
     }),
+    defineField({
+        name: "reviewCount",
+        title: "Total Reviews",
+        type: "number",
+        group: "details",
+        initialValue: 0,
+        validation: (Rule) => Rule.min(0),
+    }),
+
+    // Inside defineType fields array:
+
+   
+
+    
+
   ],
   preview: {
     select: {

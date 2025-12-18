@@ -4,22 +4,26 @@ import HomeCategories from "@/components/HomeCategories";
 import LatestBlog from "@/components/LatestBlog";
 import ProductGrid from "@/components/ProductGrid";
 import ShopByNurseries from "@/components/ShopByNurseries";
+import VideoBlogSection from "@/components/VideoBlogSection";
+
 import { getCategories } from "@/sanity/queries";
+import { getHomeBanner } from "@/sanity/queries";
+import { getVideoBlogs } from "@/sanity/queries";
 
-import React from "react";
-
-const Home = async () => {
+export default async function HomePage() {
+  const banner = await getHomeBanner();
   const categories = await getCategories(6);
+  const videoBlogs = await getVideoBlogs(6);
 
   return (
     <Container className="bg-shop-light-pink">
-      <HomeBanner />
+      {banner && <HomeBanner banner={banner} />}
+
       <ProductGrid />
       <HomeCategories categories={categories} />
       <ShopByNurseries />
+      <VideoBlogSection videoBlogs={videoBlogs} />
       <LatestBlog />
     </Container>
   );
-};
-
-export default Home;
+}

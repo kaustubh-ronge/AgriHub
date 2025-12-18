@@ -85,8 +85,13 @@ const WishListProducts = () => {
                           </p>
                         )}
                       </td>
-                      <td className="p-2 capitalize hidden md:table-cell">
+                      {/* <td className="p-2 capitalize hidden md:table-cell">
                         {product?.variant}
+                      </td> */}
+                      {/* // Change this line in your WishListProducts.tsx mapping: */}
+                      <td className="p-2 capitalize hidden md:table-cell">
+                        {/* @ts-ignore */}
+                        {product?.productVariant || "Product"}
                       </td>
                       <td
                         className={`p-2 w-24 ${
