@@ -77,9 +77,21 @@ const MY_ORDERS_QUERY = defineQuery(`
 const GET_ALL_BLOG = defineQuery(
   `*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{
   ...,  
+  _id,
+  title,
+  slug,
+  publishedAt,
+  mainImage,
+  mediaType,         
+  socialVideoUrl,    
+  autoPlay,          
       blogcategories[]->{
     title
-}
+  }
+    author->{
+    name,
+    image
+  }
     }
   `
 );
@@ -87,6 +99,9 @@ const GET_ALL_BLOG = defineQuery(
 const SINGLE_BLOG_QUERY =
   defineQuery(`*[_type == "blog" && slug.current == $slug][0]{
   ..., 
+  mediaType,
+  socialVideoUrl,
+  autoPlay,
     author->{
     name,
     image,
@@ -94,6 +109,11 @@ const SINGLE_BLOG_QUERY =
   blogcategories[]->{
     title,
     "slug": slug.current,
+    description,
+      promotionType,
+      promoImage,
+      promoVideo{asset->{url}},
+      videoPoster,
   },
 }`);
 
@@ -158,6 +178,8 @@ const VIDEO_BLOG_QUERY = defineQuery(`
     slug,
     publishedAt,
     mediaType,
+    socialVideoUrl,
+    autoPlay,
     blogVideo{
       asset->{
         url

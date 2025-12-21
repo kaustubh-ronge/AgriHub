@@ -65,3 +65,92 @@ const FooterTop = () => {
 };
 
 export default FooterTop;
+
+
+
+
+
+
+
+
+
+
+
+
+// import { Facebook, Instagram, Youtube } from "lucide-react";
+// import React from "react";
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger,
+// } from "./ui/tooltip";
+// import { cn } from "@/lib/utils";
+// import Link from "next/link";
+
+// interface Props {
+//   className?: string;
+//   iconClassName?: string;
+//   tooltipClassName?: string;
+// }
+
+// const socialLink = [
+//   {
+//     title: "Youtube",
+//     href: "https://youtube.com/channel/UCbGsO9pG1baayktWVYZNqeA",
+//     icon: <Youtube className="w-5 h-5" />,
+//     // Brand Color: Red
+//     brandColor: "hover:bg-[#FF0000] hover:border-[#FF0000]",
+//   },
+//   {
+//     title: "Facebook",
+//     href: "https://www.facebook.com/yourprofile", // Fixed your URL
+//     icon: <Facebook className="w-5 h-5" />,
+//     // Brand Color: Blue
+//     brandColor: "hover:bg-[#1877F2] hover:border-[#1877F2]",
+//   },
+//   {
+//     title: "Instagram",
+//     href: "https://www.instagram.com/bajbalkar_saheb/",
+//     icon: <Instagram className="w-5 h-5" />,
+//     // Brand Color: Instagram Gradient (using a warm pink/purple hex)
+//     brandColor: "hover:bg-[#E4405F] hover:border-[#E4405F]",
+//   },
+// ];
+
+// const SocialMedia = ({ className, iconClassName, tooltipClassName }: Props) => {
+//   return (
+//     <TooltipProvider>
+//       <div className={cn("flex items-center gap-3.5", className)}>
+//         {socialLink?.map((item) => (
+//           <Tooltip key={item?.title}>
+//             <TooltipTrigger asChild>
+//               <Link
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//                 href={item?.href}
+//                 className={cn(
+//                   "p-2 border rounded-full text-darkColor/60 transition-all duration-300 hover:text-white",
+//                   item.brandColor, // Dynamic brand color class
+//                   iconClassName
+//                 )}
+//               >
+//                 {item?.icon}
+//               </Link>
+//             </TooltipTrigger>
+//             <TooltipContent
+//               className={cn(
+//                 "bg-white text-darkColor font-semibold",
+//                 tooltipClassName
+//               )}
+//             >
+//               {item?.title}
+//             </TooltipContent>
+//           </Tooltip>
+//         ))}
+//       </div>
+//     </TooltipProvider>
+//   );
+// };
+
+// export default SocialMedia;

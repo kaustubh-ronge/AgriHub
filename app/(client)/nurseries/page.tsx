@@ -6,7 +6,7 @@ import { getAllNurseries } from "@/sanity/queries";
 
 // Metadata for SEO
 export const metadata = {
-  title: "Top Nurseries | AgriHub",
+  title: "Top Nurseries | Bajbalkar Ropvatika & Consultancy",
   description: "Explore India's best nurseries offering high-quality seeds, plants, and agricultural tools.",
 };
 
