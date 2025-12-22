@@ -42,15 +42,15 @@ export const productType = defineType({
           { title: "Fertilizer", value: "fertilizer" },
           { title: "Pesticide / Insecticide", value: "pesticide" },
           { title: "Herbicide / Weedicide", value: "herbicide" },
-          { title: "Fungicide", value: "fungicide" },
-          { title: "Farm Machinery", value: "machinery" },
-          { title: "Machinery Parts", value: "parts" },
-          { title: "Hand Tools", value: "tools" },
-          { title: "Irrigation", value: "irrigation" },
-          { title: "Animal Feed", value: "feed" },
-          { title: "Veterinary Medicine", value: "vet" },
-          { title: "Growing Media (e.g., Coco Peat)", value: "media" },
-          { title: "Protective Gear", value: "gear" },
+          // { title: "Fungicide", value: "fungicide" },
+          // { title: "Farm Machinery", value: "machinery" },
+          // { title: "Machinery Parts", value: "parts" },
+          // { title: "Hand Tools", value: "tools" },
+          // { title: "Irrigation", value: "irrigation" },
+          // { title: "Animal Feed", value: "feed" },
+          // { title: "Veterinary Medicine", value: "vet" },
+          // { title: "Growing Media (e.g., Coco Peat)", value: "media" },
+          // { title: "Protective Gear", value: "gear" },
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -96,6 +96,31 @@ export const productType = defineType({
       to: [{ type: "plantBreed" }], // Must match name in plantBreadType.ts
       group: "agriData",
       hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+
+    // Add these fields inside the agriData group in productType.ts
+    defineField({
+      name: "preparationTime",
+      title: "Batch Preparation Time (Days)",
+      type: "number",
+      group: "agriData",
+      description: "Days required to prepare the batch for dispatch (e.g., 15 days).",
+      initialValue: 15,
+      hidden: ({ document }) => document?.productVariant !== "plants",
+    }),
+    defineField({
+      name: "batchStatus",
+      title: "Current Batch Status",
+      type: "string",
+      group: "main",
+      options: {
+        list: [
+          { title: "Booking Open (Fresh Batch)", value: "booking" },
+          { title: "Ready for Dispatch", value: "ready" },
+          { title: "Sold Out", value: "soldout" },
+        ],
+      },
+      initialValue: "booking",
     }),
 
 

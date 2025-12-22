@@ -1273,7 +1273,7 @@ const ProductCharacteristics = ({ product }: { product: Product }) => {
     <Accordion type="single" collapsible defaultValue="specs" className="w-full">
       <AccordionItem value="specs" className="border-none">
         <AccordionTrigger className="px-6 py-6 hover:no-underline bg-green-800 text-white rounded-2xl shadow-lg">
-          <span className="font-black uppercase tracking-widest text-lg">Detailed Technical Specifications</span>
+          <span className="font-black uppercase tracking-widest text-lg"> Technical Specifications</span>
         </AccordionTrigger>
         <AccordionContent className="px-6 pb-8 pt-8 border-x border-b border-gray-100 rounded-b-2xl bg-white">
           
@@ -1281,7 +1281,7 @@ const ProductCharacteristics = ({ product }: { product: Product }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 mb-6">
              <SpecRow label="Provider Nursery" value={(p as any).nursery?.title} icon={Truck} />
              <SpecRow label="Packaging Unit" value={p.unit} icon={Package} />
-             <SpecRow label="Stock Status" value={p.stock ? `${p.stock} Units` : 'Out of Stock'} icon={Gauge} />
+             <SpecRow label="Stock Status" value={p.stock ? `${p.stock} Units` : ' Booking Available '} icon={Gauge} />
              <SpecRow label="Category" value={variant.toUpperCase()} icon={Info} />
           </div>
 

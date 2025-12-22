@@ -398,12 +398,203 @@
 
 
 
+// import { DocumentTextIcon } from "@sanity/icons";
+// import { defineArrayMember, defineField, defineType } from "sanity";
+
+// export const blogType = defineType({
+//   name: "blog",
+//   title: "Blog",
+//   type: "document",
+//   icon: DocumentTextIcon,
+//   fields: [
+//     defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
+//     defineField({ name: "slug", type: "slug", options: { source: "title" } }),
+//     defineField({ name: "author", type: "reference", to: { type: "author" } }),
+
+//     defineField({
+//       name: "mediaType",
+//       title: "Primary Media Type",
+//       type: "string",
+//       options: {
+//         list: [
+//           { title: "Standard Image", value: "image" },
+//           { title: "Video Centric", value: "video" },
+//         ],
+//         layout: "radio",
+//       },
+//       initialValue: "image",
+//     }),
+
+//     // --- VIDEO SECTION ---
+//     defineField({
+//       name: "youtubeUrl",
+//       title: "YouTube Video URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "video",
+//     }),
+//     defineField({
+//       name: "facebookUrl",
+//       title: "Facebook Video URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "video",
+//     }),
+//     defineField({
+//       name: "instagramUrl",
+//       title: "Instagram Video URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "video",
+//     }),
+
+//     defineField({
+//       name: "mainImage",
+//       title: "Featured Image",
+//       type: "image",
+//       options: { hotspot: true },
+//     }),
+
+//     defineField({
+//       name: "blogcategories",
+//       type: "array",
+//       of: [defineArrayMember({ type: "reference", to: { type: "blogcategory" } })],
+//     }),
+//     defineField({ name: "publishedAt", type: "datetime" }),
+//     defineField({ name: "body", type: "blockContent" }),
+//   ],
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { DocumentTextIcon } from "@sanity/icons";
+// import { defineArrayMember, defineField, defineType } from "sanity";
+
+// export const blogType = defineType({
+//   name: "blog",
+//   title: "Blog & Success Stories",
+//   type: "document",
+//   icon: DocumentTextIcon,
+//   fields: [
+//     defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
+//     defineField({ name: "slug", type: "slug", options: { source: "title" } }),
+//     defineField({ name: "author", type: "reference", to: { type: "author" } }),
+
+//     defineField({
+//       name: "mediaType",
+//       title: "Primary Media Content",
+//       type: "string",
+//       options: {
+//         list: [
+//           { title: "Standard Image/Poster", value: "image" },
+//           { title: "Social Media Links (YT/FB/Insta)", value: "social" },
+//           { title: "Direct Video Upload", value: "video" },
+//         ],
+//         layout: "radio",
+//       },
+//       initialValue: "image",
+//     }),
+
+//     // --- SOCIAL LINKS WITH RESTRICTIONS ---
+//     defineField({
+//       name: "youtubeUrl",
+//       title: "YouTube URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "social",
+//       validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }).custom(url => {
+//         if (!url) return true;
+//         return url.includes('youtube.com') || url.includes('youtu.be') ? true : 'Only YouTube links allowed here';
+//       })
+//     }),
+//     defineField({
+//       name: "instagramUrl",
+//       title: "Instagram Reel/Video URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "social",
+//       validation: (Rule) => Rule.custom(url => {
+//         if (!url) return true;
+//         return url.includes('instagram.com') ? true : 'Only Instagram links allowed here';
+//       })
+//     }),
+//     defineField({
+//       name: "facebookUrl",
+//       title: "Facebook Video URL",
+//       type: "url",
+//       hidden: ({ parent }) => parent?.mediaType !== "social",
+//       validation: (Rule) => Rule.custom(url => {
+//         if (!url) return true;
+//         return url.includes('facebook.com') || url.includes('fb.watch') ? true : 'Only Facebook links allowed here';
+//       })
+//     }),
+
+//     // --- DIRECT VIDEO UPLOAD ---
+//     defineField({
+//       name: "directVideo",
+//       title: "Upload Video File",
+//       type: "file",
+//       options: { accept: "video/*" },
+//       hidden: ({ parent }) => parent?.mediaType !== "video",
+//     }),
+
+//     defineField({
+//       name: "mainImage",
+//       title: "Featured Poster / Image",
+//       type: "image",
+//       options: { hotspot: true },
+//       // Always visible as a thumbnail for the blog list
+//     }),
+
+//     defineField({
+//       name: "blogcategories",
+//       title: "Blog Category (Target Audience)",
+//       type: "array",
+//       of: [defineArrayMember({ type: "reference", to: { type: "blogcategory" } })],
+//     }),
+//     defineField({ name: "publishedAt", type: "datetime", initialValue: (new Date()).toISOString() }),
+//     defineField({ name: "body", title: "Success Story Details / Information", type: "blockContent" }),
+//   ],
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { DocumentTextIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const blogType = defineType({
   name: "blog",
-  title: "Blog",
+  title: "Blog & Success Stories",
   type: "document",
   icon: DocumentTextIcon,
   fields: [
@@ -413,51 +604,73 @@ export const blogType = defineType({
 
     defineField({
       name: "mediaType",
-      title: "Primary Media Type",
+      title: "Primary Media Content",
       type: "string",
       options: {
         list: [
-          { title: "Standard Image", value: "image" },
-          { title: "Video Centric", value: "video" },
+          { title: "Standard Image/Poster", value: "image" },
+          { title: "Social Media Links (YT/FB/Insta)", value: "social" },
+          { title: "Direct Video Upload", value: "video" },
         ],
         layout: "radio",
       },
       initialValue: "image",
     }),
 
-    // --- VIDEO SECTION ---
+    // --- RESTRICTED SOCIAL LINKS ---
     defineField({
       name: "youtubeUrl",
-      title: "YouTube Video URL",
+      title: "YouTube URL",
       type: "url",
-      hidden: ({ parent }) => parent?.mediaType !== "video",
+      hidden: ({ parent }) => parent?.mediaType !== "social",
+      validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }).custom(url => {
+        if (!url) return true;
+        return (url.includes('youtube.com') || url.includes('youtu.be')) ? true : 'ही लिंक YouTube ची नाही (Only YouTube links allowed here)';
+      })
+    }),
+    defineField({
+      name: "instagramUrl",
+      title: "Instagram Reel/Video URL",
+      type: "url",
+      hidden: ({ parent }) => parent?.mediaType !== "social",
+      validation: (Rule) => Rule.custom(url => {
+        if (!url) return true;
+        return url.includes('instagram.com') ? true : 'ही लिंक Instagram ची नाही (Only Instagram links allowed here)';
+      })
     }),
     defineField({
       name: "facebookUrl",
       title: "Facebook Video URL",
       type: "url",
-      hidden: ({ parent }) => parent?.mediaType !== "video",
+      hidden: ({ parent }) => parent?.mediaType !== "social",
+      validation: (Rule) => Rule.custom(url => {
+        if (!url) return true;
+        return (url.includes('facebook.com') || url.includes('fb.watch')) ? true : 'ही लिंक Facebook ची नाही (Only Facebook links allowed here)';
+      })
     }),
+
     defineField({
-      name: "instagramUrl",
-      title: "Instagram Video URL",
-      type: "url",
+      name: "directVideo",
+      title: "Upload Video File",
+      type: "file",
+      options: { accept: "video/*" },
       hidden: ({ parent }) => parent?.mediaType !== "video",
     }),
 
     defineField({
       name: "mainImage",
-      title: "Featured Image",
+      title: "Featured Poster / Image",
       type: "image",
       options: { hotspot: true },
     }),
 
     defineField({
       name: "blogcategories",
+      title: "Blog Category (Target Audience)",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: { type: "blogcategory" } })],
     }),
-    defineField({ name: "publishedAt", type: "datetime" }),
-    defineField({ name: "body", type: "blockContent" }),
+    defineField({ name: "publishedAt", type: "datetime", initialValue: (new Date()).toISOString() }),
+    defineField({ name: "body", title: "Success Story Details / Information", type: "blockContent" }),
   ],
 });

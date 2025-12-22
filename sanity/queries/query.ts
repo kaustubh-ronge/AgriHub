@@ -99,10 +99,13 @@ const GET_ALL_BLOG = defineQuery(
 const SINGLE_BLOG_QUERY =
   defineQuery(`*[_type == "blog" && slug.current == $slug][0]{
   ..., 
+  "directVideoUrl": directVideo.asset->url,
   mediaType,
-  socialVideoUrl,
+  youtubeUrl,
+  instagramUrl,
+  facebookUrl,
   autoPlay,
-    author->{
+  author->{
     name,
     image,
   },
@@ -110,10 +113,10 @@ const SINGLE_BLOG_QUERY =
     title,
     "slug": slug.current,
     description,
-      promotionType,
-      promoImage,
-      promoVideo{asset->{url}},
-      videoPoster,
+    promotionType,
+    promoImage,
+    "promoVideoUrl": promoVideo.asset->url,
+    videoPoster,
   },
 }`);
 

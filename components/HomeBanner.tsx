@@ -373,10 +373,34 @@ const HomeBanner = ({ banner }: { banner: any }) => {
   };
 
   const socialLinks = [
-    { name: "Youtube", icon: <Youtube size={24} />, href: "https://youtube.com/channel/UCbGsO9pG1baayktWVYZNqeA", gradient: "from-[#FF0000] to-[#b91c1c]" },
-    { name: "Facebook", icon: <Facebook size={24} />, href: "https://www.facebook.com/share/1FU52GRoH1/", gradient: "from-[#1877F2] to-[#0e5a9e]" },
-    { name: "Instagram", icon: <Instagram size={24} />, href: "https://www.instagram.com/bajbalkar_saheb/", gradient: "from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]" },
-    { name: "Location", icon: <MapPin size={24} />, href: "https://maps.app.goo.gl/AePQwEoQag53hT279", gradient: "from-[#34A853] to-[#4285F4]" },
+    { 
+      name: "Youtube", 
+      icon: <Youtube size={24} />, 
+      href: "https://youtube.com/channel/UCbGsO9pG1baayktWVYZNqeA", 
+      gradient: "from-[#FF0000] to-[#b91c1c]",
+      textColor: "text-[#FF0000]"
+    },
+    { 
+      name: "Facebook", 
+      icon: <Facebook size={24} />, 
+      href: "https://www.facebook.com/share/1FU52GRoH1/", 
+      gradient: "from-[#1877F2] to-[#0e5a9e]",
+      textColor: "text-[#1877F2]"
+    },
+    { 
+      name: "Instagram", 
+      icon: <Instagram size={24} />, 
+      href: "https://www.instagram.com/bajbalkar_saheb/", 
+      gradient: "from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]",
+      textColor: "text-[#ee2a7b]"
+    },
+    { 
+      name: "Location", 
+      icon: <MapPin size={24} />, 
+      href: "https://maps.app.goo.gl/AePQwEoQag53hT279", 
+      gradient: "from-[#34A853] to-[#4285F4]",
+      textColor: "text-[#34A853]"
+    },
   ];
 
   return (
@@ -388,7 +412,7 @@ const HomeBanner = ({ banner }: { banner: any }) => {
     >
       {/* 1. TEXT SECTION */}
       <div className="px-6 md:px-16 py-12 text-center md:text-left bg-gradient-to-b from-shop_light_pink/20 to-transparent">
-        <h1 className="text-4xl md:text-7xl font-black text-shop_dark_green leading-tight tracking-tighter mb-6">
+        <h1 className="text-3xl md:text-6xl font-black text-shop_dark_green leading-tight tracking-tighter mb-6">
           {banner?.title}
         </h1>
         <p className="text-xl md:text-2xl text-gray-700 max-w-5xl leading-relaxed font-medium">
@@ -398,44 +422,59 @@ const HomeBanner = ({ banner }: { banner: any }) => {
         {/* NUMBERS AND SOCIALS ON ONE LINE */}
         <div className="mt-8 flex flex-col lg:flex-row lg:items-center gap-8 border-t border-gray-100 pt-8">
           {/* Contacts Group */}
-          <div className="flex flex-wrap gap-6">
-            <div className="flex items-center gap-3">
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Nursery</div>
-              <div className="flex items-center gap-2">
-                <span className="font-black text-gray-900">+91 9673747158</span>
-                <a href="tel:+919673747158" className="text-shop_dark_green hover:scale-110 transition"><Phone size={18}/></a>
-                <button onClick={() => openWhatsApp("919673747158", "Nursery")} className="text-green-600 hover:scale-110 transition"><MessageSquare size={18}/></button>
+          <div className="flex flex-wrap gap-8">
+            <div className="flex flex-col gap-1">
+              <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Nursery</div>
+              <div className="flex items-center gap-3">
+                <span className="font-black text-gray-900 text-xl">+91 9673747158</span>
+                <div className="flex gap-2">
+                    <a href="tel:+919673747158" className="p-2 bg-gray-100 rounded-full text-shop_dark_green hover:bg-shop_dark_green hover:text-white transition-all"><Phone size={18}/></a>
+                    <button onClick={() => openWhatsApp("919673747158", "Nursery")} className="p-2 bg-green-100 rounded-full text-green-600 hover:bg-green-600 hover:text-white transition-all"><MessageSquare size={18}/></button>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Consultancy</div>
-              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="font-black text-gray-900">+91 9765797782</span>
-                  <a href="tel:+919765797782" className="text-shop_dark_green hover:scale-110 transition"><Phone size={18}/></a>
-                  <button onClick={() => openWhatsApp("919765797782", "Consultancy")} className="text-green-600 hover:scale-110 transition"><MessageSquare size={18}/></button>
+            <div className="flex flex-col gap-1 border-l border-gray-200 pl-8">
+              <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Consultancy</div>
+              <div className="flex flex-wrap items-center gap-6">
+                <div className="flex items-center gap-3">
+                  <span className="font-black text-gray-900 text-xl">+91 9765797782</span>
+                  <div className="flex gap-2">
+                    <a href="tel:+919765797782" className="p-2 bg-gray-100 rounded-full text-shop_dark_green hover:bg-shop_dark_green hover:text-white transition-all"><Phone size={18}/></a>
+                    <button onClick={() => openWhatsApp("919765797782", "Consultancy")} className="p-2 bg-green-100 rounded-full text-green-600 hover:bg-green-600 hover:text-white transition-all"><MessageSquare size={18}/></button>
+                  </div>
                 </div>
-                {/* Second Consultancy Number */}
-                <div className="flex items-center gap-2">
-                  <span className="font-black text-gray-900">+91 987543210</span>
-                  <a href="tel:+9198XXXXXXXX" className="text-shop_dark_green hover:scale-110 transition"><Phone size={18}/></a>
-                  <button onClick={() => openWhatsApp("91987543210", "Consultancy")} className="text-green-600 hover:scale-110 transition"><MessageSquare size={18}/></button>
+                <div className="flex items-center gap-3">
+                  <span className="font-black text-gray-900 text-xl">+91 9876543210</span>
+                  <div className="flex gap-2">
+                    <a href="tel:+919876543210" className="p-2 bg-gray-100 rounded-full text-shop_dark_green hover:bg-shop_dark_green hover:text-white transition-all"><Phone size={18}/></a>
+                    <button onClick={() => openWhatsApp("919876543210", "Consultancy")} className="p-2 bg-green-100 rounded-full text-green-600 hover:bg-green-600 hover:text-white transition-all"><MessageSquare size={18}/></button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Socials Group with Original Mix Colors */}
+          {/* Socials Group with Name Display on Hover */}
           <div className="flex gap-4 lg:ml-auto">
             {socialLinks.map((social) => (
               <Link
                 key={social.name}
                 href={social.href}
                 target="_blank"
-                className={`w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 bg-gradient-to-tr ${social.gradient}`}
+                className="group relative flex items-center"
               >
-                {social.icon}
+                {/* TOOLTIP NAME - Displays on Hover */}
+                <span className={`absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-white border shadow-xl rounded-lg text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 group-hover:-top-12 transition-all duration-300 pointer-events-none z-50 ${social.textColor}`}>
+                  {social.name}
+                  {/* Triangle Arrow */}
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-b border-r rotate-45"></span>
+                </span>
+
+                {/* APP ICON */}
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl bg-gradient-to-tr ${social.gradient}`}>
+                  {social.icon}
+                </div>
               </Link>
             ))}
           </div>
@@ -451,7 +490,7 @@ const HomeBanner = ({ banner }: { banner: any }) => {
             muted
             loop
             playsInline
-            className="w-full h-[400px] md:h-[650px] object-cover"
+            className="w-full h-[400px] md:h-[650px] object-cover shadow-inner"
           />
         ) : (
           banner?.bannerImage && (
@@ -472,18 +511,18 @@ const HomeBanner = ({ banner }: { banner: any }) => {
         <div className="flex flex-wrap gap-4">
           <Link
             href={banner?.ctaLink || "/shop"}
-            className="bg-shop_dark_green text-white px-10 py-5 rounded-xl text-xl font-bold hover:bg-shop_light_green transition shadow-xl"
+            className="bg-shop_dark_green text-white px-8 py-4 rounded-sm text-sm font-bold hover:bg-shop_light_green transition shadow-xl uppercase tracking-wider"
           >
             {banner?.ctaText || "Buy Now"}
           </Link>
-          <span className="px-8 py-5 bg-white border-2 border-shop_dark_green rounded-xl text-shop_dark_green text-lg font-black uppercase tracking-widest flex items-center gap-2">
+          <span className="px-6 py-4 bg-white border-2 border-shop_dark_green rounded-sm text-shop_dark_green text-sm font-black uppercase tracking-widest flex items-center gap-2">
             🌾 5000+ Happy Farmers
           </span>
         </div>
         
         <Link
           href="/blog"
-          className="px-8 py-5 bg-gray-800 text-white rounded-xl text-lg font-bold hover:bg-shop_dark_green transition flex items-center gap-2"
+          className="px-6 py-4 bg-gray-800 text-white rounded-sm text-sm font-bold hover:bg-shop_dark_green transition flex items-center gap-2 uppercase tracking-widest"
         >
           Success Stories →
         </Link>
@@ -493,4 +532,3 @@ const HomeBanner = ({ banner }: { banner: any }) => {
 };
 
 export default HomeBanner;
-

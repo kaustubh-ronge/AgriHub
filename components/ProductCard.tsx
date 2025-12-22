@@ -643,7 +643,7 @@ const ProductCard = ({ product, isRecommended = false }: ProductCardProps) => {
                <PriceView price={product?.price} discount={product?.discount} className="text-3xl font-black text-green-700 tracking-tighter" />
             </div>
             <span className={`text-[10px] font-black px-4 py-1.5 rounded-full tracking-widest shadow-sm ${product.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-              {product.stock > 0 ? 'READY' : 'SOLD'}
+              {product.stock > 0 ? 'READY' : 'AVAILABLE'}
             </span>
           </div>
 

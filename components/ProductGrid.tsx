@@ -129,7 +129,7 @@ const productTabs = [
   { title: "Plants", value: "plants", icon: <Leaf size={16}/> },
   { title: "Seeds", value: "seeds", icon: <Sprout size={16}/> },
   { title: "Fertilizer", value: "fertilizer", icon: <Droplets size={16}/> },
-  { title: "Machinery", value: "machinery", icon: <Hammer size={16}/> },
+  // { title: "Machinery", value: "machinery", icon: <Hammer size={16}/> },
 ];
 
 const ProductGrid = () => {
