@@ -424,7 +424,7 @@ const HomeBanner = ({ banner }: { banner: any }) => {
           {/* Contacts Group */}
           <div className="flex flex-wrap gap-8">
             <div className="flex flex-col gap-1">
-              <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Nursery</div>
+              <div className="text-[14px] font-black text-gray-400 uppercase tracking-[0.2em]">Nursery</div>
               <div className="flex items-center gap-3">
                 <span className="font-black text-gray-900 text-xl">+91 9673747158</span>
                 <div className="flex gap-2">
@@ -434,8 +434,8 @@ const HomeBanner = ({ banner }: { banner: any }) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1 border-l border-gray-200 pl-8">
-              <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Consultancy</div>
+            <div className="flex flex-col gap-1">
+              <div className="text-[14px] font-black text-gray-400 uppercase tracking-[0.2em]">Consultancy</div>
               <div className="flex flex-wrap items-center gap-6">
                 <div className="flex items-center gap-3">
                   <span className="font-black text-gray-900 text-xl">+91 9765797782</span>
@@ -507,7 +507,7 @@ const HomeBanner = ({ banner }: { banner: any }) => {
       </div>
 
       {/* 3. BOTTOM ACTION BAR */}
-      <div className="px-6 md:px-16 py-10 flex flex-wrap gap-6 items-center justify-between bg-gray-50/50">
+      <div className="px-6 md:px-12 py-10 flex flex-wrap gap-6 items-center justify-between bg-gray-50/50">
         <div className="flex flex-wrap gap-4">
           <Link
             href={banner?.ctaLink || "/shop"}

@@ -123,6 +123,17 @@ export const productType = defineType({
       initialValue: "booking",
     }),
 
+    defineField({
+      name: "stock",
+      title: "Physical Stock Available",
+      type: "number",
+      group: "details",
+      description: "Only used when batch is 'Ready for Dispatch'.",
+      // ✅ Only show stock input if the owner marks it as 'Ready'
+      hidden: ({ document }) => document?.batchStatus !== "ready", 
+      validation: (Rule) => Rule.min(0),
+    }),
+
 
         // Add these inside the agriData group in productType.ts
     defineField({
@@ -185,13 +196,13 @@ export const productType = defineType({
       initialValue: 0,
       validation: (Rule) => Rule.min(0).max(100),
     }),
-    defineField({
-      name: "stock",
-      title: "Stock",
-      type: "number",
-      group: "details",
-      validation: (Rule) => Rule.min(0),
-    }),
+    // defineField({
+    //   name: "stock",
+    //   title: "Stock",
+    //   type: "number",
+    //   group: "details",
+    //   validation: (Rule) => Rule.min(0),
+    // }),
     defineField({
       name: "unit",
       title: "Unit",

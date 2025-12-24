@@ -549,11 +549,8 @@
 
 
 
-
-
 "use client";
 
-import { Product } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
@@ -563,7 +560,7 @@ import PriceView from "./PriceView";
 import AddToCartButton from "./AddToCartButton";
 import AddToWishlistButton from "./AddToWishlistButton";
 import { InquiryDrawer } from "@/components/InquiryDrawer"; 
-import { MessageSquare, BadgeCheck } from "lucide-react";
+import { MessageSquare, BadgeCheck, Sprout, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface ProductCardProps {
@@ -573,8 +570,10 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, isRecommended = false }: ProductCardProps) => {
   const isForSale = product.isForSale !== false;
+  
+  // Logic: Product is available if it's a booking OR if it's ready with stock > 0
+  const isAvailable = product.batchStatus === "booking" || (product.batchStatus === "ready" && product.stock > 0);
 
-  // 1. REFINED RECOMMENDED BANNER
   if (isRecommended) {
     return (
       <Link 
@@ -597,11 +596,10 @@ const ProductCard = ({ product, isRecommended = false }: ProductCardProps) => {
     );
   }
 
-  // 2. UNIFIED STANDARD CARD (Used in Home & Shop)
   return (
     <div className="bg-white border-2 border-gray-100 rounded-[2.5rem] overflow-hidden flex flex-col h-full shadow-sm hover:shadow-2xl hover:border-green-100 transition-all duration-500 group relative">
       
-      {/* IMAGE AREA - Fixed Height for alignment */}
+      {/* IMAGE AREA */}
       <div className="relative h-72 w-full bg-gray-50/50 overflow-hidden">
         {product?.images && product.images[0] && (
           <Link href={`/product/${product?.slug?.current}`} className="block h-full w-full">
@@ -615,6 +613,23 @@ const ProductCard = ({ product, isRecommended = false }: ProductCardProps) => {
         )}
         <div className="absolute top-6 right-6 scale-125 z-10 transition-transform duration-300 group-hover:scale-150">
            <AddToWishlistButton product={product} />
+        </div>
+        
+        {/* Status Overlay */}
+        <div className="absolute bottom-4 left-6">
+            {product.batchStatus === "booking" ? (
+                <span className="flex items-center gap-1.5 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg uppercase tracking-widest">
+                    <Sprout size={12} /> Fresh Batch Booking
+                </span>
+            ) : product.stock > 0 ? (
+                <span className="flex items-center gap-1.5 bg-green-600 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg uppercase tracking-widest">
+                    <ShoppingCart size={12} /> Ready Stock
+                </span>
+            ) : (
+                <span className="bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg uppercase tracking-widest">
+                    Sold Out
+                </span>
+            )}
         </div>
       </div>
 
@@ -635,22 +650,19 @@ const ProductCard = ({ product, isRecommended = false }: ProductCardProps) => {
           {product.shortDescription || "Batch verified by Bajbalkar Consultancy experts."}
         </p>
 
-        {/* PRICE & ACTIONS */}
         <div className="mt-auto pt-6 border-t-2 border-gray-50 space-y-6">
           <div className="flex items-end justify-between">
             <div className="flex flex-col">
                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Price per {product.unit}</span>
                <PriceView price={product?.price} discount={product?.discount} className="text-3xl font-black text-green-700 tracking-tighter" />
             </div>
-            <span className={`text-[10px] font-black px-4 py-1.5 rounded-full tracking-widest shadow-sm ${product.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-              {product.stock > 0 ? 'READY' : 'AVAILABLE'}
-            </span>
           </div>
 
           <div className="grid grid-cols-1 gap-3">
-            {isForSale && product.stock > 0 && (
+            {isForSale && isAvailable && (
               <AddToCartButton product={product} className="w-full py-7 text-sm font-black uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-green-200 hover:-translate-y-0.5 transition-all" />
             )}
+            
             {product.whatsappNumber && (
               <InquiryDrawer product={product} whatsappNumber={product.whatsappNumber}>
                 <Button variant="outline" className="w-full h-16 border-2 border-green-600 text-green-700 hover:bg-green-600 hover:text-white rounded-2xl font-black text-xs tracking-widest transition-all duration-300">
