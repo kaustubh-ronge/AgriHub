@@ -1,25 +1,22 @@
 import { getSingleBlog } from "@/sanity/queries";
 import { urlFor } from "@/sanity/lib/image";
-import SocialVideoPlayer from "@/components/SocialVideoPlayer";
 import { PortableText } from "@portabletext/react";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  MapPin, 
-  Phone, 
-  MessageSquare, 
   ExternalLink, 
   Youtube, 
   Facebook, 
   Instagram, 
-  Video, 
+  MessageSquare, 
   PlayCircle,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Video
 } from "lucide-react";
 import { Button } from "@/components/ui/button"; 
 
-// --- HELPER: Auto-detect Icon based on URL ---
+// --- HELPER: Auto-detect Icon for the 'Important Links' section ---
 const getIconFromUrl = (url: string) => {
   if (!url) return <ExternalLink className="w-4 h-4 mr-2" />;
   const lowerUrl = url.toLowerCase();
@@ -64,7 +61,24 @@ export default async function BlogDetails({ params }: { params: Promise<{ slug: 
           </div>
         )}
 
-        {/* Video Gallery */}
+        {/* --- MAIN UPLOADED VIDEO (This renders the file from Sanity) --- */}
+        {blog.directVideoUrl && (
+            <div className="pt-2">
+                <h3 className="text-2xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Video className="text-shop_dark_green"/> Featured Video
+                </h3>
+                <div className="bg-black rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                    <video 
+                        src={blog.directVideoUrl} 
+                        controls 
+                        playsInline
+                        className="w-full max-h-[500px] object-contain"
+                    />
+                </div>
+            </div>
+        )}
+
+        {/* --- VIDEO GALLERY (These render multiple files from Sanity) --- */}
         {blog.videoGalleryUrls && blog.videoGalleryUrls.length > 0 && (
             <div className="pt-2">
                 <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center gap-2">
@@ -73,14 +87,19 @@ export default async function BlogDetails({ params }: { params: Promise<{ slug: 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {blog.videoGalleryUrls.map((vidUrl: string, idx: number) => (
                         <div key={idx} className="bg-black rounded-xl overflow-hidden shadow-md">
-                            <video src={vidUrl} controls className="w-full h-56 object-contain" />
+                            <video 
+                                src={vidUrl} 
+                                controls 
+                                playsInline
+                                className="w-full h-56 object-contain" 
+                            />
                         </div>
                     ))}
                 </div>
             </div>
         )}
 
-        {/* 🔥 NEW: CUSTOM LINKS SECTION */}
+        {/* --- IMPORTANT LINKS SECTION (For social links only) --- */}
         {blog.socialLinks && blog.socialLinks.length > 0 && (
             <div className="pt-2">
                 <h3 className="text-xl font-bold mb-4 text-gray-800">Important Links</h3>
@@ -93,9 +112,7 @@ export default async function BlogDetails({ params }: { params: Promise<{ slug: 
                             className="h-12 border-2 border-shop_dark_green/20 text-shop_dark_green hover:bg-shop_dark_green hover:text-white transition-all text-base px-6"
                         >
                             <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                {/* Icon Auto-detected from URL */}
                                 {getIconFromUrl(link.url)}
-                                {/* Title from Sanity */}
                                 {link.title}
                             </a>
                         </Button>
@@ -104,17 +121,6 @@ export default async function BlogDetails({ params }: { params: Promise<{ slug: 
             </div>
         )}
         
-        {/* Legacy Support (If you still use the old specific fields) */}
-        {(blog.youtubeUrl || blog.facebookUrl || blog.instagramUrl) && (
-             <div className="space-y-6 pt-6 border-t">
-                {blog.youtubeUrl && <SocialVideoPlayer url={blog.youtubeUrl} />}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {blog.facebookUrl && <SocialVideoPlayer url={blog.facebookUrl} />}
-                  {blog.instagramUrl && <SocialVideoPlayer url={blog.instagramUrl} />}
-                </div>
-             </div>
-        )}
-
       </div>
 
       {/* 2. TITLE & DATE */}

@@ -185,6 +185,7 @@ const ImageView = ({ images = [], stock }: Props) => {
             }`}
           >
             <Image
+            unoptimized
               src={urlFor(img).url()}
               alt="thumb"
               width={80}
