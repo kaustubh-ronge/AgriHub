@@ -1,25 +1,306 @@
 
+// // import { defineQuery } from "next-sanity";
+
+// // const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
+
+// // const LATEST_BLOG_QUERY = defineQuery(
+// //   ` *[_type == 'blog' && isLatest == true]|order(name asc){
+// //       ...,
+// //       blogcategories[]->{
+// //       title
+// //     }
+// //     }`
+// // );
+
+// // const DEAL_PRODUCTS = defineQuery(
+// //   `*[_type == 'product' && status == 'hot'] | order(name asc){
+// //     ...,"categories": categories[]->title
+// //   }`
+// // );
+
+// // // ✅ FIX: Removed 'export' here because it is exported at the bottom
+// // const NURSERY_BY_SLUG_QUERY = defineQuery(`
+// //   *[_type == "nursery" && slug.current == $slug][0] {
+// //     ...,
+// //     "products": *[_type == "product" && references(^._id)] | order(name asc) {
+// //       _id,
+// //       name,
+// //       price,
+// //       discount,
+// //       stock,
+// //       "slug": slug.current,
+// //       images,
+// //       description,
+// //       productVariant
+// //     }
+// //   }
+// // `);
+
+// // const PRODUCT_BY_SLUG_QUERY = defineQuery(
+// //   `*[_type == "product" && slug.current == $slug][0]{
+// //     ..., 
+// //     nursery->, 
+// //     categories[]->{title, "slug": slug.current}, 
+// //     "plantBreedData": plantBreedData->,
+// //     "fertilizerFormulaData": fertilizerFormulaData->, 
+// //     seedingDate,            
+// //     trayPlantCount,         
+// //     trayPrice,              
+// //     transplantDeadlineDays, 
+  
+// //     relatedProducts[]->{ 
+// //       name,
+// //       "slug": slug.current,
+// //       images,
+// //       price,
+// //       discount,
+// //       shortDescription
+// //     }
+// //   }`
+// // );
+
+// // const NURSERY_QUERY_BY_PRODUCT = defineQuery(`*[_type == "product" && slug.current == $slug]{
+// //   "nurseryName": nursery->title
+// //  }`);
+
+// // // ✅ UPDATED: Fetching Orders cleanly
+// // const MY_ORDERS_QUERY = defineQuery(`
+// //   *[_type == 'order' && clerkUserId == $userId] | order(orderDate desc){
+// //     ...,
+// //     "products": products[]{
+// //       ...,
+// //       product->
+// //     }
+// //   }
+// // `);
+
+// // const GET_ALL_BLOG = defineQuery(
+// //   `*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{
+// //   ...,  
+// //   _id,
+// //   title,
+// //   slug,
+// //   publishedAt,
+// //   mainImage,
+// //   mediaType,         
+// //   socialVideoUrl,    
+// //   autoPlay,          
+// //       blogcategories[]->{
+// //     title
+// //   }
+// //     author->{
+// //     name,
+// //     image
+// //   }
+// //     }
+// //   `
+// // );
+
+
+// //  // Add this inside your SINGLE_BLOG_QUERY definition
+// //  const SINGLE_BLOG_QUERY = defineQuery(`
+// //   *[_type == "blog" && slug.current == $slug][0]{
+// //     ..., 
+// //     "directVideoUrl": directVideo.asset->url,
+// //     "videoGalleryUrls": videoGallery[].asset->url,
+
+// //     // ✅ FETCH THE LINKS
+// //     socialLinks[]{
+// //       title,
+// //       url
+// //     },
+
+// //     // Legacy fields
+// //     youtubeUrl,
+// //     instagramUrl,
+// //     facebookUrl,
+
+// //     author->{ name, image },
+// //     blogcategories[]->{ ... }
+// //   }
+// // `);
+
+
+
+// // const BLOG_CATEGORIES = defineQuery(
+// //   `*[_type == "blog"]{
+// //       blogcategories[]->{
+// //     ...
+// //     }
+// //   }`
+// // );
+
+// // const OTHERS_BLOG_QUERY = defineQuery(`*[
+// //   _type == "blog"
+// //   && defined(slug.current)
+// //   && slug.current != $slug
+// // ]|order(publishedAt desc)[0...$quantity]{
+// // ...
+// //   publishedAt,
+// //   title,
+// //   mainImage,
+// //   slug,
+// //   author->{
+// //     name,
+// //     image,
+// //   },
+// //   categories[]->{
+// //     title,
+// //     "slug": slug.current,
+// //   }
+// // }`);
+
+
+
+
+// // const HOME_BANNER_QUERY = defineQuery(`
+// //   *[_type == "homeBanner"][0]{
+// //     title,
+// //     subtitle,
+// //     ctaText,
+// //     ctaLink,
+// //     mediaType,
+// //     bannerImage,
+// //     bannerVideo{
+// //       asset->{
+// //         url
+// //       }
+// //     },
+// //     autoPlay,
+// //     showAnimation,
+// //     ownerName
+// //   }
+// // `);
+
+// // // 🎥 VIDEO BLOGS ONLY (For Home Page & Reels)
+// // const VIDEO_BLOG_QUERY = defineQuery(`
+// //   *[
+// //     _type == "blog"
+// //     && mediaType == "video"
+// //   ] | order(publishedAt desc){
+// //     _id,
+// //     title,
+// //     slug,
+// //     publishedAt,
+// //     mediaType,
+// //     socialVideoUrl,
+// //     autoPlay,
+// //     blogVideo{
+// //       asset->{
+// //         url
+// //       }
+// //     },
+// //     videoPoster,
+// //     blogcategories[]->{
+// //       title,
+// //       "slug": slug.current
+// //     }
+// //   }
+// // `);
+
+// // // ✅ Export everything together at the bottom
+// // export {
+// //   NURSERY_QUERY,
+// //   LATEST_BLOG_QUERY,
+// //   DEAL_PRODUCTS,
+// //   PRODUCT_BY_SLUG_QUERY,
+// //   NURSERY_QUERY_BY_PRODUCT,
+// //   MY_ORDERS_QUERY,
+// //   GET_ALL_BLOG,
+// //   SINGLE_BLOG_QUERY,
+// //   BLOG_CATEGORIES,
+// //   OTHERS_BLOG_QUERY,
+// //   NURSERY_BY_SLUG_QUERY,
+// //   HOME_BANNER_QUERY,
+// //   VIDEO_BLOG_QUERY,
+// // };
+
 // import { defineQuery } from "next-sanity";
 
-// const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
+// export const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
 
-// const LATEST_BLOG_QUERY = defineQuery(
-//   ` *[_type == 'blog' && isLatest == true]|order(name asc){
+// // ✅ FIX: Added missing commas and new fields
+// export const GET_ALL_BLOG = defineQuery(
+//   `*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{
 //       ...,
+//       _id,
+//       title,
+//       slug,
+//       publishedAt,
+//       mainImage,
+      
+//       // Fetch new fields for listing page indicators
+//       "directVideoUrl": directVideo.asset->url,
+//       "videoGalleryUrls": videoGallery[].asset->url,
+//       socialLinks,
+
+//       // Legacy fields
+//       mediaType,
+//       socialVideoUrl,
+//       autoPlay,
+
 //       blogcategories[]->{
-//       title
-//     }
+//         title
+//       }, // <--- THIS COMMA WAS MISSING
+      
+//       author->{
+//         name,
+//         image
+//       }
 //     }`
 // );
 
-// const DEAL_PRODUCTS = defineQuery(
+// export const SINGLE_BLOG_QUERY = defineQuery(
+//   `*[_type == "blog" && slug.current == $slug][0]{
+//     ..., 
+//     "directVideoUrl": directVideo.asset->url,
+    
+//     // ✅ Fetch Video Gallery URLs
+//     "videoGalleryUrls": videoGallery[].asset->url,
+
+//     // ✅ Fetch Social Links
+//     socialLinks[]{
+//       title,
+//       url
+//     },
+
+//     // Legacy support
+//     mediaType,
+//     youtubeUrl,
+//     instagramUrl,
+//     facebookUrl,
+//     autoPlay,
+
+//     author->{
+//       name,
+//       image,
+//     },
+//     blogcategories[]->{
+//       title,
+//       "slug": slug.current,
+//       description,
+//       // No promotionType check needed anymore as we fetch everything
+//       promoImage,
+//       "promoVideoUrl": promoVideo.asset->url,
+//       videoPoster,
+//     },
+//   }`
+// );
+
+// export const LATEST_BLOG_QUERY = defineQuery(
+//   ` *[_type == 'blog' && isLatest == true]|order(name asc){
+//       ...,
+//       blogcategories[]->{ title }
+//     }`
+// );
+
+// export const DEAL_PRODUCTS = defineQuery(
 //   `*[_type == 'product' && status == 'hot'] | order(name asc){
 //     ...,"categories": categories[]->title
 //   }`
 // );
 
-// // ✅ FIX: Removed 'export' here because it is exported at the bottom
-// const NURSERY_BY_SLUG_QUERY = defineQuery(`
+// export const NURSERY_BY_SLUG_QUERY = defineQuery(`
 //   *[_type == "nursery" && slug.current == $slug][0] {
 //     ...,
 //     "products": *[_type == "product" && references(^._id)] | order(name asc) {
@@ -36,7 +317,7 @@
 //   }
 // `);
 
-// const PRODUCT_BY_SLUG_QUERY = defineQuery(
+// export const PRODUCT_BY_SLUG_QUERY = defineQuery(
 //   `*[_type == "product" && slug.current == $slug][0]{
 //     ..., 
 //     nursery->, 
@@ -47,7 +328,6 @@
 //     trayPlantCount,         
 //     trayPrice,              
 //     transplantDeadlineDays, 
-  
 //     relatedProducts[]->{ 
 //       name,
 //       "slug": slug.current,
@@ -59,12 +339,11 @@
 //   }`
 // );
 
-// const NURSERY_QUERY_BY_PRODUCT = defineQuery(`*[_type == "product" && slug.current == $slug]{
+// export const NURSERY_QUERY_BY_PRODUCT = defineQuery(`*[_type == "product" && slug.current == $slug]{
 //   "nurseryName": nursery->title
 //  }`);
 
-// // ✅ UPDATED: Fetching Orders cleanly
-// const MY_ORDERS_QUERY = defineQuery(`
+// export const MY_ORDERS_QUERY = defineQuery(`
 //   *[_type == 'order' && clerkUserId == $userId] | order(orderDate desc){
 //     ...,
 //     "products": products[]{
@@ -74,86 +353,27 @@
 //   }
 // `);
 
-// const GET_ALL_BLOG = defineQuery(
-//   `*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{
-//   ...,  
-//   _id,
-//   title,
-//   slug,
-//   publishedAt,
-//   mainImage,
-//   mediaType,         
-//   socialVideoUrl,    
-//   autoPlay,          
-//       blogcategories[]->{
-//     title
-//   }
-//     author->{
-//     name,
-//     image
-//   }
-//     }
-//   `
-// );
-
-
-//  // Add this inside your SINGLE_BLOG_QUERY definition
-//  const SINGLE_BLOG_QUERY = defineQuery(`
-//   *[_type == "blog" && slug.current == $slug][0]{
-//     ..., 
-//     "directVideoUrl": directVideo.asset->url,
-//     "videoGalleryUrls": videoGallery[].asset->url,
-
-//     // ✅ FETCH THE LINKS
-//     socialLinks[]{
-//       title,
-//       url
-//     },
-
-//     // Legacy fields
-//     youtubeUrl,
-//     instagramUrl,
-//     facebookUrl,
-
-//     author->{ name, image },
-//     blogcategories[]->{ ... }
-//   }
-// `);
-
-
-
-// const BLOG_CATEGORIES = defineQuery(
+// export const BLOG_CATEGORIES = defineQuery(
 //   `*[_type == "blog"]{
-//       blogcategories[]->{
-//     ...
-//     }
+//       blogcategories[]->{ ... }
 //   }`
 // );
 
-// const OTHERS_BLOG_QUERY = defineQuery(`*[
+// export const OTHERS_BLOG_QUERY = defineQuery(`*[
 //   _type == "blog"
 //   && defined(slug.current)
 //   && slug.current != $slug
 // ]|order(publishedAt desc)[0...$quantity]{
-// ...
+//   ...,
 //   publishedAt,
 //   title,
 //   mainImage,
 //   slug,
-//   author->{
-//     name,
-//     image,
-//   },
-//   categories[]->{
-//     title,
-//     "slug": slug.current,
-//   }
+//   author->{ name, image },
+//   blogcategories[]->{ title, "slug": slug.current }
 // }`);
 
-
-
-
-// const HOME_BANNER_QUERY = defineQuery(`
+// export const HOME_BANNER_QUERY = defineQuery(`
 //   *[_type == "homeBanner"][0]{
 //     title,
 //     subtitle,
@@ -172,24 +392,16 @@
 //   }
 // `);
 
-// // 🎥 VIDEO BLOGS ONLY (For Home Page & Reels)
-// const VIDEO_BLOG_QUERY = defineQuery(`
+// export const VIDEO_BLOG_QUERY = defineQuery(`
 //   *[
 //     _type == "blog"
-//     && mediaType == "video"
+//     && defined(directVideo) 
 //   ] | order(publishedAt desc){
 //     _id,
 //     title,
 //     slug,
 //     publishedAt,
-//     mediaType,
-//     socialVideoUrl,
-//     autoPlay,
-//     blogVideo{
-//       asset->{
-//         url
-//       }
-//     },
+//     "videoUrl": directVideo.asset->url,
 //     videoPoster,
 //     blogcategories[]->{
 //       title,
@@ -198,28 +410,11 @@
 //   }
 // `);
 
-// // ✅ Export everything together at the bottom
-// export {
-//   NURSERY_QUERY,
-//   LATEST_BLOG_QUERY,
-//   DEAL_PRODUCTS,
-//   PRODUCT_BY_SLUG_QUERY,
-//   NURSERY_QUERY_BY_PRODUCT,
-//   MY_ORDERS_QUERY,
-//   GET_ALL_BLOG,
-//   SINGLE_BLOG_QUERY,
-//   BLOG_CATEGORIES,
-//   OTHERS_BLOG_QUERY,
-//   NURSERY_BY_SLUG_QUERY,
-//   HOME_BANNER_QUERY,
-//   VIDEO_BLOG_QUERY,
-// };
 
 import { defineQuery } from "next-sanity";
 
 export const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
 
-// ✅ FIX: Added missing commas and new fields
 export const GET_ALL_BLOG = defineQuery(
   `*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{
       ...,
@@ -228,25 +423,14 @@ export const GET_ALL_BLOG = defineQuery(
       slug,
       publishedAt,
       mainImage,
-      
-      // Fetch new fields for listing page indicators
       "directVideoUrl": directVideo.asset->url,
       "videoGalleryUrls": videoGallery[].asset->url,
       socialLinks,
-
-      // Legacy fields
       mediaType,
       socialVideoUrl,
       autoPlay,
-
-      blogcategories[]->{
-        title
-      }, // <--- THIS COMMA WAS MISSING
-      
-      author->{
-        name,
-        image
-      }
+      blogcategories[]->{ title },
+      author->{ name, image }
     }`
 );
 
@@ -254,36 +438,22 @@ export const SINGLE_BLOG_QUERY = defineQuery(
   `*[_type == "blog" && slug.current == $slug][0]{
     ..., 
     "directVideoUrl": directVideo.asset->url,
-    
-    // ✅ Fetch Video Gallery URLs
     "videoGalleryUrls": videoGallery[].asset->url,
-
-    // ✅ Fetch Social Links
-    socialLinks[]{
-      title,
-      url
-    },
-
-    // Legacy support
+    socialLinks[]{ title, url },
     mediaType,
     youtubeUrl,
     instagramUrl,
     facebookUrl,
     autoPlay,
-
-    author->{
-      name,
-      image,
-    },
+    author->{ name, image },
     blogcategories[]->{
       title,
       "slug": slug.current,
       description,
-      // No promotionType check needed anymore as we fetch everything
       promoImage,
       "promoVideoUrl": promoVideo.asset->url,
-      videoPoster,
-    },
+      videoPoster
+    }
   }`
 );
 
@@ -300,9 +470,22 @@ export const DEAL_PRODUCTS = defineQuery(
   }`
 );
 
+// ✅ FIX: Updated to return 'slug' as string and 'image' as URL string
 export const NURSERY_BY_SLUG_QUERY = defineQuery(`
   *[_type == "nursery" && slug.current == $slug][0] {
     ...,
+    _id,
+    title,
+    description,
+    address,
+    phoneNumber,
+    email,
+    rating,
+    // Convert slug object to string
+    "slug": slug.current, 
+    // Convert image object to URL string
+    "image": image.asset->url, 
+
     "products": *[_type == "product" && references(^._id)] | order(name asc) {
       _id,
       name,
@@ -382,9 +565,7 @@ export const HOME_BANNER_QUERY = defineQuery(`
     mediaType,
     bannerImage,
     bannerVideo{
-      asset->{
-        url
-      }
+      asset->{ url }
     },
     autoPlay,
     showAnimation,
