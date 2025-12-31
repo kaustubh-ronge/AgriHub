@@ -1,3 +1,4 @@
+
 import { DocumentTextIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
@@ -35,7 +36,7 @@ export const blogType = defineType({
       of: [defineArrayMember({ type: "file", options: { accept: "video/*" } })]
     }),
 
-    // 4. 🔥 YOUR NEW LINKS FIELD (Title + URL)
+    // 4. CUSTOM LINKS FIELD (Title + URL)
     defineField({
       name: "socialLinks",
       title: "External Links (YouTube, Insta, etc.)",
@@ -60,18 +61,12 @@ export const blogType = defineType({
               validation: (Rule) => Rule.required().uri({ scheme: ['http', 'https'] })
             }),
           ],
-          // This shows the Title as the preview in Sanity Studio
           preview: {
             select: { title: 'title', subtitle: 'url' }
           }
         })
       ]
     }),
-
-    // Legacy fields (optional, can keep if you have old data)
-    defineField({ name: "youtubeUrl", title: "YouTube URL (Old)", type: "url" }),
-    defineField({ name: "instagramUrl", title: "Instagram URL (Old)", type: "url" }),
-    defineField({ name: "facebookUrl", title: "Facebook URL (Old)", type: "url" }),
 
     defineField({
       name: "blogcategories",

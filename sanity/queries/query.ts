@@ -1,4 +1,5 @@
 
+
 // import { defineQuery } from "next-sanity";
 
 // export const NURSERY_QUERY = defineQuery(`*[_type=='nursery'] | order(name asc) `);
@@ -58,7 +59,6 @@
 //   }`
 // );
 
-// // ✅ FIX: Updated to return 'slug' as string and 'image' as URL string
 // export const NURSERY_BY_SLUG_QUERY = defineQuery(`
 //   *[_type == "nursery" && slug.current == $slug][0] {
 //     ...,
@@ -69,11 +69,8 @@
 //     phoneNumber,
 //     email,
 //     rating,
-//     // Convert slug object to string
 //     "slug": slug.current, 
-//     // Convert image object to URL string
 //     "image": image.asset->url, 
-
 //     "products": *[_type == "product" && references(^._id)] | order(name asc) {
 //       _id,
 //       name,
@@ -179,6 +176,34 @@
 //   }
 // `);
 
+// // --- NEW QUERIES ADDED BELOW ---
+
+// // 1. Fetch all Blog Categories explicitly for the Homepage Grid
+// export const ALL_BLOG_CATEGORIES_QUERY = defineQuery(`
+//   *[_type == "blogcategory"] | order(title asc) {
+//     _id,
+//     title,
+//     "slug": slug.current,
+//     description,
+//     promoImage
+//   }
+// `);
+
+// // 2. Fetch Blogs filtered by specific Category Slug
+// export const BLOGS_BY_CATEGORY_QUERY = defineQuery(`
+//   *[_type == "blog" && defined(blogcategories) && $slug in blogcategories[]->slug.current] | order(publishedAt desc) {
+//     _id,
+//     title,
+//     slug,
+//     publishedAt,
+//     mainImage,
+//     "directVideoUrl": directVideo.asset->url,
+//     "videoGalleryUrls": videoGallery[].asset->url,
+//     socialLinks,
+//     blogcategories[]->{ title, "slug": slug.current }
+//   }
+// `);
+
 
 import { defineQuery } from "next-sanity";
 
@@ -195,9 +220,6 @@ export const GET_ALL_BLOG = defineQuery(
       "directVideoUrl": directVideo.asset->url,
       "videoGalleryUrls": videoGallery[].asset->url,
       socialLinks,
-      mediaType,
-      socialVideoUrl,
-      autoPlay,
       blogcategories[]->{ title },
       author->{ name, image }
     }`
@@ -209,11 +231,6 @@ export const SINGLE_BLOG_QUERY = defineQuery(
     "directVideoUrl": directVideo.asset->url,
     "videoGalleryUrls": videoGallery[].asset->url,
     socialLinks[]{ title, url },
-    mediaType,
-    youtubeUrl,
-    instagramUrl,
-    facebookUrl,
-    autoPlay,
     author->{ name, image },
     blogcategories[]->{
       title,
@@ -358,7 +375,6 @@ export const VIDEO_BLOG_QUERY = defineQuery(`
 
 // --- NEW QUERIES ADDED BELOW ---
 
-// 1. Fetch all Blog Categories explicitly for the Homepage Grid
 export const ALL_BLOG_CATEGORIES_QUERY = defineQuery(`
   *[_type == "blogcategory"] | order(title asc) {
     _id,
@@ -369,7 +385,6 @@ export const ALL_BLOG_CATEGORIES_QUERY = defineQuery(`
   }
 `);
 
-// 2. Fetch Blogs filtered by specific Category Slug
 export const BLOGS_BY_CATEGORY_QUERY = defineQuery(`
   *[_type == "blog" && defined(blogcategories) && $slug in blogcategories[]->slug.current] | order(publishedAt desc) {
     _id,
