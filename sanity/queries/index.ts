@@ -297,7 +297,7 @@ export const getAllNurseries = async () => {
 };
 
 // ✅ FIX 1: Add Guard Clause for Slug
-export const getNurseryBySlug = async (slug: string) => {
+export const getNurseryBySlugQuery = async (slug: string) => {
   if (!slug) return null; // <--- Prevents the crash
   try {
     const nursery = await sanityFetch({
