@@ -1,0 +1,121 @@
+'use client';
+
+import { useEffect } from 'react';
+
+const GoogleTranslateManager = () => {
+  // A helper function to forcefully delete cookies from your original code
+  const deleteCookie = (name: string) => {
+    const domain = window.location.hostname;
+    const baseDomain = domain.replace(/^www\./, '');
+    const expires = "; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+    document.cookie = `${name}=; path=/; domain=${domain}${expires}`;
+    document.cookie = `${name}=; path=/; domain=.${baseDomain}${expires}`;
+    document.cookie = `${name}=; path=/;${expires}`;
+  };
+
+  const changeLanguage = (langCode: string) => {
+    deleteCookie('googtrans');
+
+    setTimeout(() => {
+      // Set the cookie using multiple methods for reliability
+      document.cookie = `googtrans=/en/${langCode};path=/;domain=${window.location.hostname};`;
+      document.cookie = `googtrans=/en/${langCode};path=/;`;
+
+      // Reload the page to apply the translation
+      window.location.reload();
+    }, 100);
+  };
+
+  useEffect(() => {
+    // Expose the changeLanguage function to the global window object
+    window.changeGoogleTranslateLanguage = changeLanguage;
+
+    // --- YOUR ROBUST CSS AND JS LOGIC TO HIDE THE BANNER ---
+    const styleId = 'google-translate-banner-fix';
+    if (!document.getElementById(styleId)) {
+      const css = `
+              .goog-te-banner-frame.skiptranslate { display: none !important; }
+              body { top: 0 !important; position: static !important; }
+              html { top: 0 !important; }
+              .goog-te-banner-frame { display: none !important; height: 0 !important; visibility: hidden !important; opacity: 0 !important; z-index: -1 !important; }
+              .skiptranslate { z-index: 0 !important; }
+              .goog-te-balloon-frame { display: none !important; }
+              #goog-gt-tt, .goog-te-balloon-frame { display: none !important; } 
+              .goog-text-highlight { background: none !important; box-shadow: none !important; }
+              .goog-te-menu-frame.skiptranslate { display: none !important; }
+              .goog-tooltip { display: none !important; }
+              .goog-tooltip:hover { display: none !important; }
+            `;
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.type = 'text/css';
+      style.appendChild(document.createTextNode(css));
+      document.head.appendChild(style);
+    }
+
+    const forceHideBanner = () => {
+      try {
+        const htmlEl = document.documentElement;
+        if (htmlEl && (htmlEl.style.top && htmlEl.style.top !== '0px')) {
+          htmlEl.style.top = '0px';
+        }
+
+        const bannerFrames = document.querySelectorAll<HTMLIFrameElement>('iframe.goog-te-banner-frame');
+        bannerFrames.forEach(frame => {
+          frame.style.setProperty('display', 'none', 'important');
+        });
+      } catch (error) {
+        // Silently catch errors if elements are not found
+        console.log(error)
+
+      }
+    };
+
+    // Use both an interval and a MutationObserver to fight the banner
+    const intervalId = setInterval(forceHideBanner, 200);
+    const timeoutId = setTimeout(() => clearInterval(intervalId), 5000);
+    const observer = new MutationObserver(forceHideBanner);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Initialize the Google Translate script
+    const googleTranslateElementInit = () => {
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement(
+          { pageLanguage: 'en' },
+          'google_translate_element'
+        );
+      }
+    };
+    window.googleTranslateElementInit = googleTranslateElementInit;
+
+    // Add the Google Translate script to the page
+    const scriptId = 'google-translate-script';
+    if (!document.getElementById(scriptId)) {
+      const addScript = document.createElement('script');
+      addScript.id = scriptId;
+      addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      addScript.async = true;
+      document.body.appendChild(addScript);
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      delete window.changeGoogleTranslateLanguage;
+      delete window.googleTranslateElementInit;
+      try {
+        clearInterval(intervalId);
+        clearTimeout(timeoutId);
+        observer.disconnect();
+      } catch (error) {
+        // Silently catch errorsclg
+        console.log(error)
+      }
+    };
+  }, []);
+
+  // This div is required by Google but must be hidden.
+  return <div id="google_translate_element" style={{ display: 'none' }}></div>;
+};
+
+export default GoogleTranslateManager;
